@@ -23,6 +23,9 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <segue destination="8dE-AW-RTh" kind="show" identifier="showPhotoAlbumSegue" id="Vyu-cZ-1Ug"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -42,7 +45,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AXO-GH-lZQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="474" y="1111"/>
+            <point key="canvasLocation" x="1187" y="429"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="NUJ-o6-vbZ">
@@ -109,7 +112,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A4F-SK-8AW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1153" y="1111"/>
+            <point key="canvasLocation" x="1928" y="429"/>
         </scene>
     </scenes>
 </document>
