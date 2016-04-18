@@ -12,6 +12,7 @@
 		422F8A171CC46D09007FF250 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 422F8A151CC46D09007FF250 /* Main.storyboard */; };
 		422F8A191CC46D09007FF250 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 422F8A181CC46D09007FF250 /* Assets.xcassets */; };
 		422F8A1C1CC46D09007FF250 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 422F8A1A1CC46D09007FF250 /* LaunchScreen.storyboard */; };
+		422F8A2A1CC476D4007FF250 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 422F8A291CC476D4007FF250 /* MapKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		422F8A181CC46D09007FF250 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		422F8A1B1CC46D09007FF250 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		422F8A1D1CC46D09007FF250 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		422F8A291CC476D4007FF250 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +31,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				422F8A2A1CC476D4007FF250 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -38,6 +41,7 @@
 		422F8A051CC46D09007FF250 = {
 			isa = PBXGroup;
 			children = (
+				422F8A291CC476D4007FF250 /* MapKit.framework */,
 				422F8A101CC46D09007FF250 /* VirtualTourist */,
 				422F8A0F1CC46D09007FF250 /* Products */,
 			);
@@ -96,6 +100,11 @@
 				TargetAttributes = {
 					422F8A0D1CC46D09007FF250 = {
 						CreatedOnToolsVersion = 7.3;
+						SystemCapabilities = {
+							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -251,6 +260,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = VirtualTourist/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = co.hunsberger.VirtualTourist;
@@ -262,6 +272,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = VirtualTourist/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = co.hunsberger.VirtualTourist;
