@@ -13,6 +13,7 @@
 		422F8A191CC46D09007FF250 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 422F8A181CC46D09007FF250 /* Assets.xcassets */; };
 		422F8A1C1CC46D09007FF250 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 422F8A1A1CC46D09007FF250 /* LaunchScreen.storyboard */; };
 		422F8A2A1CC476D4007FF250 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 422F8A291CC476D4007FF250 /* MapKit.framework */; };
+		422F8A2C1CC5D166007FF250 /* Pin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422F8A2B1CC5D166007FF250 /* Pin.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		422F8A1B1CC46D09007FF250 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		422F8A1D1CC46D09007FF250 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		422F8A291CC476D4007FF250 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		422F8A2B1CC5D166007FF250 /* Pin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pin.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 			children = (
 				422F8A111CC46D09007FF250 /* AppDelegate.swift */,
 				422F8A131CC46D09007FF250 /* TravelMapViewController.swift */,
+				422F8A2B1CC5D166007FF250 /* Pin.swift */,
 				422F8A151CC46D09007FF250 /* Main.storyboard */,
 				422F8A181CC46D09007FF250 /* Assets.xcassets */,
 				422F8A1A1CC46D09007FF250 /* LaunchScreen.storyboard */,
@@ -144,6 +147,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				422F8A2C1CC5D166007FF250 /* Pin.swift in Sources */,
 				422F8A141CC46D09007FF250 /* TravelMapViewController.swift in Sources */,
 				422F8A121CC46D09007FF250 /* AppDelegate.swift in Sources */,
 			);
