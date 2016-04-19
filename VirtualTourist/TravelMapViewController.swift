@@ -18,8 +18,34 @@ class TravelMapViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        addLongPressRecognizer()
     }
 
+    /**
+        This function captures a location from a gesture recognizer and
+        creates a pin on the map view at that location.
+    
+        - Parameter recognizer: The gesture recognizer object that will capture long press gestures
+    */
+    func addPinFromLongPress(recognizer: UILongPressGestureRecognizer) {
+        if (recognizer.state != UIGestureRecognizerState.Began) {
+            return
+        }
+        
+        let point = recognizer.locationInView(mapView)
+        let location = mapView.convertPoint(point, toCoordinateFromView: mapView)
+        
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
+        mapView.addAnnotation(annotation)
+    }
+    
+    // MARK: UI Setup functions
+    
+    /// Creates a long press gesture recognizer and adds it to the map view
+    func addLongPressRecognizer() {
+        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(TravelMapViewController.addPinFromLongPress))
+        mapView.addGestureRecognizer(longPressRecognizer)
+    }
 }
 
