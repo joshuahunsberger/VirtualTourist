@@ -35,9 +35,9 @@ class TravelMapViewController: UIViewController {
         let point = recognizer.locationInView(mapView)
         let location = mapView.convertPoint(point, toCoordinateFromView: mapView)
         
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
-        mapView.addAnnotation(annotation)
+        let pin = Pin(location: location)
+        
+        mapView.addAnnotation(pin.annotation)
     }
     
     // MARK: UI Setup functions
