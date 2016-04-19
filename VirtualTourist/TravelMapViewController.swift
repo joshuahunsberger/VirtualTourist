@@ -7,9 +7,15 @@
 //
 
 import UIKit
+import MapKit
 
 class TravelMapViewController: UIViewController {
 
+    // MARK: InterfaceBuilder Outlet properties
+    @IBOutlet weak var mapView: MKMapView!
+    
+    // MARK: View lifecycle functions
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
