@@ -11,6 +11,9 @@ import MapKit
 
 class PhotoAlbumViewController: UIViewController {
     
+    // MARK: Properties
+    var pin: Pin!
+    
     // MARK: InterfaceBuilder outlet properties
     
     @IBOutlet weak var pinMapView: MKMapView!

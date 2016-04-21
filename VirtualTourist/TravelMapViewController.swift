@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class TravelMapViewController: UIViewController {
+class TravelMapViewController: UIViewController, MKMapViewDelegate {
 
     // MARK: InterfaceBuilder Outlet properties
     @IBOutlet weak var mapView: MKMapView!
@@ -19,6 +19,8 @@ class TravelMapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         addLongPressRecognizer()
+        
+        mapView.delegate = self
     }
 
     /**
@@ -40,12 +42,30 @@ class TravelMapViewController: UIViewController {
         mapView.addAnnotation(pin.annotation)
     }
     
+    /// Function to lay out what happens when segues are triggerd
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if(segue.identifier == "showPhotoAlbumSegue") {
+            let navController = segue.destinationViewController as! UINavigationController
+            let vc = navController.viewControllers[0] as! PhotoAlbumViewController
+            let annotation = sender as! MKPointAnnotation
+            let newPin = Pin(pin: annotation)
+            vc.pin = newPin
+        }
+    }
+    
     // MARK: UI Setup functions
     
     /// Creates a long press gesture recognizer and adds it to the map view
     func addLongPressRecognizer() {
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(TravelMapViewController.addPinFromLongPress))
         mapView.addGestureRecognizer(longPressRecognizer)
+    }
+    
+    // MARK: MKMapView Delegate Functions
+    
+    /// Triggers a segue to the photo album view whenever a pin is pressed 
+    func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
+        performSegueWithIdentifier("showPhotoAlbumSegue", sender: view.annotation)
     }
 }
 
