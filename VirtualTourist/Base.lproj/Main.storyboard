@@ -117,7 +117,6 @@
                     </view>
                     <navigationItem key="navigationItem" id="aV9-xh-hDh"/>
                     <connections>
-                        <outlet property="newCollectionButton" destination="25X-Jn-PRX" id="W8d-Qs-ckR"/>
                         <outlet property="photoCollectionView" destination="N5U-8V-Jzt" id="9sY-zR-Ls6"/>
                         <outlet property="photoUpdateButton" destination="25X-Jn-PRX" id="5ju-Mp-Jlf"/>
                         <outlet property="pinMapView" destination="Q8c-sl-4Aa" id="vPc-cX-z2c"/>
