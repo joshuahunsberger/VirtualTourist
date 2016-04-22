@@ -24,7 +24,9 @@ class PhotoAlbumViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        if let pin = pin {
+            pinMapView.showAnnotations([pin.annotation], animated: true)
+        }
     }
-
 }
