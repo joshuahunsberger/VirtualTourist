@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="a2h-Zd-Z9G">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -29,30 +29,15 @@
                             <constraint firstAttribute="trailing" secondItem="gWy-Kd-cp4" secondAttribute="trailing" id="z9Q-Aq-1kh"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="yaa-0S-2cz"/>
                     <connections>
                         <outlet property="mapView" destination="gWy-Kd-cp4" id="891-pm-kQO"/>
-                        <segue destination="8dE-AW-RTh" kind="show" identifier="showPhotoAlbumSegue" id="Vyu-cZ-1Ug"/>
+                        <segue destination="t4M-Dj-EFy" kind="show" identifier="showPhotoAlbumSegue" id="xvb-ir-LD6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="435" y="429"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="Rxw-Qa-zLo">
-            <objects>
-                <navigationController id="8dE-AW-RTh" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="O71-rx-Rx9">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="t4M-Dj-EFy" kind="relationship" relationship="rootViewController" id="6b4-Bo-QCT"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="AXO-GH-lZQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1187" y="429"/>
+            <point key="canvasLocation" x="1247" y="429"/>
         </scene>
         <!--Photo Album View Controller-->
         <scene sceneID="NUJ-o6-vbZ">
@@ -124,7 +109,25 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A4F-SK-8AW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1928" y="429"/>
+            <point key="canvasLocation" x="2082" y="429"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="5Vj-56-Lan">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="a2h-Zd-Z9G" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="JlS-sK-Och">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="WJg-zc-n9b"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="I5z-Rg-ico" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="435" y="429"/>
         </scene>
     </scenes>
 </document>

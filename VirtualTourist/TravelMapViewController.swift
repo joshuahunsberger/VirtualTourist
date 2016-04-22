@@ -45,8 +45,7 @@ class TravelMapViewController: UIViewController, MKMapViewDelegate {
     /// Function to lay out what happens when segues are triggerd
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if(segue.identifier == "showPhotoAlbumSegue") {
-            let navController = segue.destinationViewController as! UINavigationController
-            let vc = navController.viewControllers[0] as! PhotoAlbumViewController
+            let vc = segue.destinationViewController as! PhotoAlbumViewController
             let annotation = sender as! MKPointAnnotation
             let newPin = Pin(pin: annotation)
             vc.pin = newPin
