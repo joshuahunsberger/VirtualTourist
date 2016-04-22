@@ -22,6 +22,16 @@ class TravelMapViewController: UIViewController, MKMapViewDelegate {
         
         mapView.delegate = self
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.hidden = true
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.navigationBar.hidden = false
+    }
 
     /**
         This function captures a location from a gesture recognizer and
