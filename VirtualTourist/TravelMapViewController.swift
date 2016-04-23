@@ -74,6 +74,7 @@ class TravelMapViewController: UIViewController, MKMapViewDelegate {
     
     /// Triggers a segue to the photo album view whenever a pin is pressed 
     func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
+        mapView.deselectAnnotation(view.annotation, animated: true)
         performSegueWithIdentifier("showPhotoAlbumSegue", sender: view.annotation)
     }
 }
