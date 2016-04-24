@@ -86,11 +86,11 @@ extension FlickrClient {
           - longitude: Longitude to search
           - completionHandlerForSearchPhotos: Completion handler to call on success or error condition
      */
-    func searchPhotosByLatLon(latitude: Double, longitude: Double, completionHandlerForSearchPhotos: (success: Bool, error: NSError?) -> Void) {
+    func searchPhotosByLatLon(latitude: Double, longitude: Double, completionHandlerForSearchPhotos: (photos: [String]?, error: NSError?) -> Void) {
         
         func sendError(error: String){
             let userInfo = [NSLocalizedDescriptionKey: error]
-            completionHandlerForSearchPhotos(success: false, error: NSError(domain: "searchPhotosByLatLon", code: 1, userInfo: userInfo))
+            completionHandlerForSearchPhotos(photos: nil, error: NSError(domain: "searchPhotosByLatLon", code: 1, userInfo: userInfo))
         }
         
         let parameters : [String: AnyObject] = [
@@ -146,6 +146,13 @@ extension FlickrClient {
             if(randomPage == 1) {
                 // Already have the page we want, use the images on this page
                 // TODO: Process photos
+                var photoURLs = [String]()
+                for photo in photoArray {
+                    if let urlString = photo[ResponseKeys.MediumURL] as? String {
+                        photoURLs.append(urlString)
+                    }
+                }
+                completionHandlerForSearchPhotos(photos: photoURLs, error: nil)
             } else {
                 // TODO: Query for specific page
             }
