@@ -6,6 +6,8 @@
 //  Copyright © 2016 Joshua Hunsberger. All rights reserved.
 //
 
+import Foundation
+
 extension FlickrClient {
     
     struct Constants {
@@ -13,10 +15,15 @@ extension FlickrClient {
         static let APIHost = "api.flickr.com"
         static let APIPath = "/services/rest"
         
-        static let MinLat = -90
-        static let MaxLat = 90
-        static let MinLon = -180
-        static let MaxLong = 180
+        // Coordinates in Radians
+        static let MIN_LAT = -90.0 * M_PI/180.0
+        static let MAX_LAT = 90.0 * M_PI/180.0
+        static let MIN_LON = -180.0 * M_PI/180.0
+        static let MAX_LON = 180.0 * M_PI/180.0
+        
+        // Constants to help compute bounding box
+        static let EARTH_RADIUS_KM = 6371.0
+        static let SEARCH_DISTANCE_KM = 5.0
     }
     
     struct ParameterKeys {
