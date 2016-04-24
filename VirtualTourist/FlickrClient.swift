@@ -10,11 +10,27 @@ import Foundation
 
 class FlickrClient: NSObject {
     
+    // MARK: Properties
+    var session = NSURLSession.sharedSession()
+    
     // Make FlickrClient a singleton with a single line.
     // From http://krakendev.io/blog/the-right-way-to-write-a-singleton
     static let sharedInstance = FlickrClient()
     
-    // MARK: URL Helper Function
+    // MARK: GET
+    func taskForGetMethod(method: String, parameters: [String: AnyObject]?, completionHandlerForGet: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
+        
+        let request = NSURLRequest(URL: createFlickrURLFromParameters(parameters!))
+        
+        let task = session.dataTaskWithRequest(request) { (data, response, error) in
+            self.processDataWithCompletionHandler(data, response: response, error: error, completionHandlerForProcessData: completionHandlerForGet)
+        }
+        task.resume()
+        
+        return task
+    }
+    
+    // MARK: Helper Functions
     
     func createFlickrURLFromParameters(parameters: [String: AnyObject]) -> NSURL {
         let components = NSURLComponents()
