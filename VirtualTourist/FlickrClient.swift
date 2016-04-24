@@ -18,7 +18,7 @@ class FlickrClient: NSObject {
     static let sharedInstance = FlickrClient()
     
     // MARK: GET
-    func taskForGetMethod(method: String, parameters: [String: AnyObject]?, completionHandlerForGet: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
+    func taskForGetMethod(parameters: [String: AnyObject]?, completionHandlerForGet: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
         
         let request = NSURLRequest(URL: createFlickrURLFromParameters(parameters!))
         
