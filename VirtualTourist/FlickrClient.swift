@@ -30,4 +30,42 @@ class FlickrClient: NSObject {
         
         return components.URL!
     }
+    
+    func processDataWithCompletionHandler(data: NSData?, response: NSURLResponse?, error: NSError?, completionHandlerForProcessData: (result: AnyObject!, error: NSError?) -> Void) {
+        func sendError(error: String){
+            let userInfo = [NSLocalizedDescriptionKey: error]
+            completionHandlerForProcessData(result: nil, error: NSError(domain: "processDataWithCompletionHandler", code: 1, userInfo: userInfo))
+        }
+        
+        // Check for errors from data returned from Flickr
+        guard (error == nil) else {
+            sendError(error!.localizedDescription)
+            return
+        }
+        
+        guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode else {
+            sendError("Unable to retrieve status code.")
+            return
+        }
+        
+        guard statusCode >= 200 && statusCode <= 299 else {
+            sendError("Request returned invalid status code.")
+            return
+        }
+        
+        guard let data = data else{
+            sendError("No data returned.")
+            return
+        }
+        
+        // Attempt to parse the data as JSON
+        var parsedResult: AnyObject!
+        do {
+            parsedResult = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
+        } catch {
+            sendError("Could not parse data as JSON: \(data)")
+        }
+        
+        completionHandlerForProcessData(result: parsedResult, error: nil)
+    }
 }
