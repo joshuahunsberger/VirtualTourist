@@ -77,5 +77,79 @@ extension FlickrClient {
         return "\(minBoxLon),\(minBoxLat),\(maxBoxLon),\(maxBoxLat)"
     }
 
+    /**
+        This method queries Flickr for photos at a given longitude and latitude.  If there is more than one page of results, it picks a 
+        random page and calls another function to request that page.
+     
+        - Parameters:
+          - latitude: Latitude to search
+          - longitude: Longitude to search
+          - completionHandlerForSearchPhotos: Completion handler to call on success or error condition
+     */
+    func searchPhotosByLatLon(latitude: Double, longitude: Double, completionHandlerForSearchPhotos: (success: Bool, error: NSError?) -> Void) {
+        
+        func sendError(error: String){
+            let userInfo = [NSLocalizedDescriptionKey: error]
+            completionHandlerForSearchPhotos(success: false, error: NSError(domain: "searchPhotosByLatLon", code: 1, userInfo: userInfo))
+        }
+        
+        let parameters : [String: AnyObject] = [
+            ParameterKeys.Method : ParameterValues.SearchMethod,
+            ParameterKeys.APIKey : ParameterValues.APIKey,
+            ParameterKeys.Extras : ParameterValues.MediumURL,
+            ParameterKeys.Format : ParameterValues.ResponseFormat,
+            ParameterKeys.NoJSONCallback : ParameterValues.DisableJSONCallback,
+            ParameterKeys.SafeSearch : ParameterValues.UseSafeSearch,
+            ParameterKeys.BoundingBox : getBoundingBox(latitude, lon: longitude),
+            ParameterKeys.PerPage : ParameterValues.PhotosPerPage
+        ]
+        
+        taskForGetMethod(parameters) { (result, error) in
+            guard (error == nil) else {
+                completionHandlerForSearchPhotos(success: false, error: error)
+                return
+            }
+            
+            // Check status from Flickr
+            guard let stat = result[ResponseKeys.Status] as? String where stat == ResponseValues.OKStatus else {
+                sendError("Flickr returned an error.")
+                return
+            }
+            
+            // Try to parse Photos dictionary
+            guard let photosDictionary = result[ResponseKeys.Photos] as? [String: AnyObject] else {
+                sendError("Unable to access photos.")
+                return
+            }
+            
+            // Try to parse Photo array
+            guard let photoArray = photosDictionary[ResponseKeys.Photo] as? [[String: AnyObject]] else {
+                sendError("Unable to access photo array.")
+                return
+            }
+            
+            if photoArray.count == 0 {
+                sendError("No photos found.")
+                return
+            }
+            
+            guard let numPages = photosDictionary[ResponseKeys.Pages] as? Int else {
+                sendError("Cannot retrieve page count.")
+                return
+            }
+            
+            // TODO: Pick images to display
+
+            // Pick a random page
+            let pageLimit = min(numPages, 133) // Flickr returns at most 4000 results, so limit the searched pages to 4000/30 ~= 133 pages
+            let randomPage = Int(arc4random_uniform(UInt32(pageLimit))) + 1
+            if(randomPage == 1) {
+                // Already have the page we want, use the images on this page
+                // TODO: Process photos
+            } else {
+                // TODO: Query for specific page
+            }
+        }
+    }
     
 }

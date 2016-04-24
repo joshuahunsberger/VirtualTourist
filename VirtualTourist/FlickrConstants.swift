@@ -34,6 +34,7 @@ extension FlickrClient {
         static let NoJSONCallback = "nojsoncallback"
         static let SafeSearch = "safe_search"
         static let BoundingBox = "bbox"
+        static let PerPage = "per_page"
     }
     
     struct ParameterValues {
@@ -43,6 +44,7 @@ extension FlickrClient {
         static let DisableJSONCallback = "1"
         static let MediumURL = "url_m"
         static let UseSafeSearch = "1"
+        static let PhotosPerPage = "30"
     }
     
     struct ResponseKeys {
