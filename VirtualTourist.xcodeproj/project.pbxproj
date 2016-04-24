@@ -66,18 +66,66 @@
 		422F8A101CC46D09007FF250 /* VirtualTourist */ = {
 			isa = PBXGroup;
 			children = (
-				422F8A111CC46D09007FF250 /* AppDelegate.swift */,
-				422F8A131CC46D09007FF250 /* TravelMapViewController.swift */,
+				422F8A331CCD1570007FF250 /* Model */,
+				422F8A361CCD15BD007FF250 /* Controller */,
+				422F8A371CCD15D4007FF250 /* Assets */,
+				422F8A381CCD15DE007FF250 /* Supporting Files */,
+			);
+			path = VirtualTourist;
+			sourceTree = "<group>";
+		};
+		422F8A331CCD1570007FF250 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				422F8A2B1CC5D166007FF250 /* Pin.swift */,
+				422F8A341CCD157D007FF250 /* Clients */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		422F8A341CCD157D007FF250 /* Clients */ = {
+			isa = PBXGroup;
+			children = (
+				422F8A351CCD1587007FF250 /* Flickr */,
+			);
+			name = Clients;
+			sourceTree = "<group>";
+		};
+		422F8A351CCD1587007FF250 /* Flickr */ = {
+			isa = PBXGroup;
+			children = (
 				422F8A2F1CCC1850007FF250 /* FlickrClient.swift */,
 				422F8A311CCD10EE007FF250 /* FlickrConstants.swift */,
+			);
+			name = Flickr;
+			sourceTree = "<group>";
+		};
+		422F8A361CCD15BD007FF250 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				422F8A111CC46D09007FF250 /* AppDelegate.swift */,
+				422F8A131CC46D09007FF250 /* TravelMapViewController.swift */,
 				422F8A2D1CC73151007FF250 /* PhotoAlbumViewController.swift */,
-				422F8A2B1CC5D166007FF250 /* Pin.swift */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		422F8A371CCD15D4007FF250 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
 				422F8A151CC46D09007FF250 /* Main.storyboard */,
 				422F8A181CC46D09007FF250 /* Assets.xcassets */,
 				422F8A1A1CC46D09007FF250 /* LaunchScreen.storyboard */,
+			);
+			name = Assets;
+			sourceTree = "<group>";
+		};
+		422F8A381CCD15DE007FF250 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
 				422F8A1D1CC46D09007FF250 /* Info.plist */,
 			);
-			path = VirtualTourist;
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
