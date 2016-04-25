@@ -35,6 +35,7 @@ extension FlickrClient {
         static let SafeSearch = "safe_search"
         static let BoundingBox = "bbox"
         static let PerPage = "per_page"
+        static let Page = "page"
     }
     
     struct ParameterValues {

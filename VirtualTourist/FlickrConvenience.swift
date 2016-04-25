@@ -151,9 +151,65 @@ extension FlickrClient {
                 }
                 completionHandlerForSearchPhotos(photos: photoURLs, error: nil)
             } else {
-                // TODO: Query for specific page
+                var newParameters = parameters
+                newParameters[ParameterKeys.Page] = "\(randomPage)"
+                self.searchPhotosByLatLon(newParameters, completionHandlerForSearchPhotos: completionHandlerForSearchPhotos)
             }
         }
     }
     
+    /**
+        This method queries Flickr for photos at a given longitude and latitude and a specific page in the result set.
+     
+        This function should be called after choosing a specific page of results to display.
+
+        - Parameters:
+          - parameters: The list of parameters to search
+          - completionHandlerForSearchPhotos: Completion handler to call on success or error condition
+     */
+    func searchPhotosByLatLon(parameters: [String: AnyObject], completionHandlerForSearchPhotos: (photos: [String]?, error: NSError?) -> Void) {
+        func sendError(error: String){
+            let userInfo = [NSLocalizedDescriptionKey: error]
+            completionHandlerForSearchPhotos(photos: nil, error: NSError(domain: "searchPhotosByLatLon", code: 1, userInfo: userInfo))
+        }
+        
+        taskForGetMethod(parameters) { (result, error) in
+            
+            guard (error == nil) else {
+                sendError(error!.localizedDescription)
+                return
+            }
+            
+            // Check status from Flickr
+            guard let stat = result[ResponseKeys.Status] as? String where stat == ResponseValues.OKStatus else {
+                sendError("Flickr returned an error.")
+                return
+            }
+            
+            // Try to parse Photos dictionary
+            guard let photosDictionary = result[ResponseKeys.Photos] as? [String: AnyObject] else {
+                sendError("Unable to access photos.")
+                return
+            }
+            
+            // Try to parse Photo array
+            guard let photoArray = photosDictionary[ResponseKeys.Photo] as? [[String: AnyObject]] else {
+                sendError("Unable to access photo array.")
+                return
+            }
+            
+            if photoArray.count == 0 {
+                sendError("No photos found.")
+                return
+            }
+            
+            var photoURLs = [String]()
+            for photo in photoArray {
+                if let urlString = photo[ResponseKeys.MediumURL] as? String {
+                    photoURLs.append(urlString)
+                }
+            }
+            completionHandlerForSearchPhotos(photos: photoURLs, error: nil)
+        }
+    }
 }
