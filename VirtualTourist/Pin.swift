@@ -11,6 +11,7 @@ import MapKit
 class Pin {
     // MARK: Properties
     let annotation: MKPointAnnotation!
+    var photos = [Photo]()
     
     // MARK: Initializers
     
