@@ -19,6 +19,7 @@
 		422F8A321CCD10EE007FF250 /* FlickrConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422F8A311CCD10EE007FF250 /* FlickrConstants.swift */; };
 		422F8A3A1CCD1EFE007FF250 /* FlickrConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422F8A391CCD1EFE007FF250 /* FlickrConvenience.swift */; };
 		422F8A3D1CCDA2D8007FF250 /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422F8A3C1CCDA2D8007FF250 /* PhotoCollectionViewCell.swift */; };
+		422F8A3F1CCDB1D1007FF250 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422F8A3E1CCDB1D1007FF250 /* Photo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		422F8A311CCD10EE007FF250 /* FlickrConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlickrConstants.swift; sourceTree = "<group>"; };
 		422F8A391CCD1EFE007FF250 /* FlickrConvenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlickrConvenience.swift; sourceTree = "<group>"; };
 		422F8A3C1CCDA2D8007FF250 /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
+		422F8A3E1CCDB1D1007FF250 /* Photo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +85,7 @@
 			isa = PBXGroup;
 			children = (
 				422F8A2B1CC5D166007FF250 /* Pin.swift */,
+				422F8A3E1CCDB1D1007FF250 /* Photo.swift */,
 				422F8A341CCD157D007FF250 /* Clients */,
 			);
 			name = Model;
@@ -221,6 +224,7 @@
 				422F8A3A1CCD1EFE007FF250 /* FlickrConvenience.swift in Sources */,
 				422F8A3D1CCDA2D8007FF250 /* PhotoCollectionViewCell.swift in Sources */,
 				422F8A2C1CC5D166007FF250 /* Pin.swift in Sources */,
+				422F8A3F1CCDB1D1007FF250 /* Photo.swift in Sources */,
 				422F8A301CCC1850007FF250 /* FlickrClient.swift in Sources */,
 				422F8A141CC46D09007FF250 /* TravelMapViewController.swift in Sources */,
 				422F8A121CC46D09007FF250 /* AppDelegate.swift in Sources */,
