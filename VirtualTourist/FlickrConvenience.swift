@@ -106,7 +106,7 @@ extension FlickrClient {
         
         taskForGetMethod(parameters) { (result, error) in
             guard (error == nil) else {
-                completionHandlerForSearchPhotos(success: false, error: error)
+                sendError(error!.localizedDescription)
                 return
             }
             
@@ -137,15 +137,12 @@ extension FlickrClient {
                 sendError("Cannot retrieve page count.")
                 return
             }
-            
-            // TODO: Pick images to display
 
             // Pick a random page
             let pageLimit = min(numPages, 133) // Flickr returns at most 4000 results, so limit the searched pages to 4000/30 ~= 133 pages
             let randomPage = Int(arc4random_uniform(UInt32(pageLimit))) + 1
             if(randomPage == 1) {
                 // Already have the page we want, use the images on this page
-                // TODO: Process photos
                 var photoURLs = [String]()
                 for photo in photoArray {
                     if let urlString = photo[ResponseKeys.MediumURL] as? String {
