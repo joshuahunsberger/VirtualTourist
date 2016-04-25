@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class PhotoAlbumViewController: UIViewController {
+class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
     // MARK: Properties
     var pin: Pin!
@@ -24,9 +24,57 @@ class PhotoAlbumViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        photoCollectionView.delegate = self
+        photoCollectionView.dataSource = self
         
         if let pin = pin {
             pinMapView.showAnnotations([pin.annotation], animated: true)
+            
+            FlickrClient.sharedInstance.searchPhotosByLatLon(pin.annotation.coordinate.latitude, longitude: pin.annotation.coordinate.longitude) { (photos, error) in
+                guard (error == nil) else {
+                    print("Error: \(error!.localizedDescription)")
+                    return
+                }
+                
+                guard let photoArray = photos else {
+                    print("Error accessing photos.")
+                    return
+                }
+                
+                for photo in photoArray {
+                    let photoObject = Photo(path: photo)
+                    pin.photos.append(photoObject)
+                }
+                
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.photoCollectionView.reloadData()
+                }
+            }
         }
+        
+        let flowLayout = UICollectionViewFlowLayout()
+        let space: CGFloat = 3.0
+        let minOrientationSize = min(photoCollectionView.frame.size.height, photoCollectionView.frame.size.width)
+        let dimension = (minOrientationSize - (2*space)) / 3.0
+        flowLayout.minimumLineSpacing = space
+        flowLayout.minimumInteritemSpacing = space
+        flowLayout.itemSize = CGSizeMake(dimension, dimension)
+        
+        photoCollectionView.setCollectionViewLayout(flowLayout, animated: false)
+    }
+    
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return pin.photos.count
+    }
+    
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell = photoCollectionView.dequeueReusableCellWithReuseIdentifier("PhotoCollectionViewCell", forIndexPath: indexPath) as! PhotoCollectionViewCell
+        let photoURL = pin.photos[indexPath.row]
+        
+        let url = NSURL(string: photoURL.urlPath)
+        let data = NSData(contentsOfURL: url!)
+        cell.photoImageView.image = UIImage(data: data!)
+        
+        return cell
     }
 }
