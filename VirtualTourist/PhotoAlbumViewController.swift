@@ -95,6 +95,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
     }
     
     func enableUIAndRemoveActivityIndicator() {
+        photoUpdateButton.enabled = true
         activityIndicator.stopAnimating()
         activityIndicator.removeFromSuperview()
     }
