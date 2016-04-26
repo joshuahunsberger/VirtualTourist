@@ -45,15 +45,13 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
                 FlickrClient.sharedInstance.searchPhotosByLatLon(pin.annotation.coordinate.latitude, longitude: pin.annotation.coordinate.longitude) { (photos, error) in
                     guard (error == nil) else {
                         print("Error: \(error!.localizedDescription)")
-                        self.activityIndicator.stopAnimating()
-                        self.activityIndicator.removeFromSuperview()
+                        self.enableUIAndRemoveActivityIndicator()
                         return
                     }
                     
                     guard let photoArray = photos else {
                         print("Error accessing photos.")
-                        self.activityIndicator.stopAnimating()
-                        self.activityIndicator.removeFromSuperview()
+                        self.enableUIAndRemoveActivityIndicator()
                         return
                     }
                     
@@ -64,8 +62,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
                     
                     dispatch_async(dispatch_get_main_queue()) {
                         self.photoCollectionView.reloadData()
-                        self.activityIndicator.stopAnimating()
-                        self.activityIndicator.removeFromSuperview()
+                        self.enableUIAndRemoveActivityIndicator()
                     }
                 }
             }
@@ -95,5 +92,10 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
         cell.photoImageView.image = UIImage(data: data!)
         
         return cell
+    }
+    
+    func enableUIAndRemoveActivityIndicator() {
+        activityIndicator.stopAnimating()
+        activityIndicator.removeFromSuperview()
     }
 }
