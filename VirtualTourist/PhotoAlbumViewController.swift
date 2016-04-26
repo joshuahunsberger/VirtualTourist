@@ -33,6 +33,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
             if pin.photos.count != 0 {
                 //TODO: Retrieve existing photos
             } else {
+                photoUpdateButton.enabled = false
                 let activityIndicator = UIActivityIndicatorView(frame: CGRectMake(0,0,50,50))
                 activityIndicator.activityIndicatorViewStyle = .WhiteLarge
                 view.addSubview(activityIndicator)
