@@ -45,13 +45,17 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
                 FlickrClient.sharedInstance.searchPhotosByLatLon(pin.annotation.coordinate.latitude, longitude: pin.annotation.coordinate.longitude) { (photos, error) in
                     guard (error == nil) else {
                         print("Error: \(error!.localizedDescription)")
-                        self.enableUIAndRemoveActivityIndicator()
+                        dispatch_async(dispatch_get_main_queue()) {
+                            self.enableUIAndRemoveActivityIndicator()
+                        }
                         return
                     }
                     
                     guard let photoArray = photos else {
                         print("Error accessing photos.")
-                        self.enableUIAndRemoveActivityIndicator()
+                        dispatch_async(dispatch_get_main_queue()) {
+                            self.enableUIAndRemoveActivityIndicator()
+                        }
                         return
                     }
                     
