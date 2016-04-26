@@ -30,24 +30,43 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
         if let pin = pin {
             pinMapView.showAnnotations([pin.annotation], animated: true)
             
-            FlickrClient.sharedInstance.searchPhotosByLatLon(pin.annotation.coordinate.latitude, longitude: pin.annotation.coordinate.longitude) { (photos, error) in
-                guard (error == nil) else {
-                    print("Error: \(error!.localizedDescription)")
-                    return
-                }
+            if pin.photos.count != 0 {
+                //TODO: Retrieve existing photos
+            } else {
+                let activityIndicator = UIActivityIndicatorView(frame: CGRectMake(0,0,50,50))
+                activityIndicator.activityIndicatorViewStyle = .WhiteLarge
+                view.addSubview(activityIndicator)
+                activityIndicator.frame = view.frame
+                activityIndicator.center = view.center
+                activityIndicator.layer.backgroundColor = UIColor.grayColor().colorWithAlphaComponent(0.75).CGColor
+                activityIndicator.startAnimating()
+
                 
-                guard let photoArray = photos else {
-                    print("Error accessing photos.")
-                    return
-                }
-                
-                for photo in photoArray {
-                    let photoObject = Photo(path: photo)
-                    pin.photos.append(photoObject)
-                }
-                
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.photoCollectionView.reloadData()
+                FlickrClient.sharedInstance.searchPhotosByLatLon(pin.annotation.coordinate.latitude, longitude: pin.annotation.coordinate.longitude) { (photos, error) in
+                    guard (error == nil) else {
+                        print("Error: \(error!.localizedDescription)")
+                        activityIndicator.stopAnimating()
+                        activityIndicator.removeFromSuperview()
+                        return
+                    }
+                    
+                    guard let photoArray = photos else {
+                        print("Error accessing photos.")
+                        activityIndicator.stopAnimating()
+                        activityIndicator.removeFromSuperview()
+                        return
+                    }
+                    
+                    for photo in photoArray {
+                        let photoObject = Photo(path: photo)
+                        pin.photos.append(photoObject)
+                    }
+                    
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.photoCollectionView.reloadData()
+                        activityIndicator.stopAnimating()
+                        activityIndicator.removeFromSuperview()
+                    }
                 }
             }
         }
