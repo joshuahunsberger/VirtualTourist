@@ -13,7 +13,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
     
     // MARK: Properties
     var pin: Pin!
-    
+    let activityIndicator = UIActivityIndicatorView(frame: CGRectMake(0,0,50,50))
     // MARK: InterfaceBuilder outlet properties
     
     @IBOutlet weak var pinMapView: MKMapView!
@@ -34,7 +34,6 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
                 //TODO: Retrieve existing photos
             } else {
                 photoUpdateButton.enabled = false
-                let activityIndicator = UIActivityIndicatorView(frame: CGRectMake(0,0,50,50))
                 activityIndicator.activityIndicatorViewStyle = .WhiteLarge
                 view.addSubview(activityIndicator)
                 activityIndicator.frame = view.frame
@@ -46,15 +45,15 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
                 FlickrClient.sharedInstance.searchPhotosByLatLon(pin.annotation.coordinate.latitude, longitude: pin.annotation.coordinate.longitude) { (photos, error) in
                     guard (error == nil) else {
                         print("Error: \(error!.localizedDescription)")
-                        activityIndicator.stopAnimating()
-                        activityIndicator.removeFromSuperview()
+                        self.activityIndicator.stopAnimating()
+                        self.activityIndicator.removeFromSuperview()
                         return
                     }
                     
                     guard let photoArray = photos else {
                         print("Error accessing photos.")
-                        activityIndicator.stopAnimating()
-                        activityIndicator.removeFromSuperview()
+                        self.activityIndicator.stopAnimating()
+                        self.activityIndicator.removeFromSuperview()
                         return
                     }
                     
@@ -65,8 +64,8 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
                     
                     dispatch_async(dispatch_get_main_queue()) {
                         self.photoCollectionView.reloadData()
-                        activityIndicator.stopAnimating()
-                        activityIndicator.removeFromSuperview()
+                        self.activityIndicator.stopAnimating()
+                        self.activityIndicator.removeFromSuperview()
                     }
                 }
             }
