@@ -74,13 +74,22 @@
                                             <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="km5-nF-zgR">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="km5-nF-zgR">
                                                     <rect key="frame" x="0.0" y="-1" width="150" height="150"/>
                                                 </imageView>
+                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="fk5-NY-S91">
+                                                    <rect key="frame" x="57" y="56" width="37" height="37"/>
+                                                    <color key="color" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                </activityIndicatorView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <constraints>
+                                            <constraint firstItem="fk5-NY-S91" firstAttribute="centerX" secondItem="dXT-O8-I4R" secondAttribute="centerX" id="B2P-hF-HvS"/>
+                                            <constraint firstItem="fk5-NY-S91" firstAttribute="centerY" secondItem="dXT-O8-I4R" secondAttribute="centerY" id="pW2-DB-JJE"/>
+                                        </constraints>
                                         <connections>
+                                            <outlet property="activityIndicator" destination="fk5-NY-S91" id="VxP-ES-OgV"/>
                                             <outlet property="photoImageView" destination="km5-nF-zgR" id="9V2-cE-biX"/>
                                         </connections>
                                     </collectionViewCell>
