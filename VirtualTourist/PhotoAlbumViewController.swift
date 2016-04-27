@@ -92,11 +92,29 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = photoCollectionView.dequeueReusableCellWithReuseIdentifier("PhotoCollectionViewCell", forIndexPath: indexPath) as! PhotoCollectionViewCell
-        let photoURL = pin.photos[indexPath.row]
         
-        let url = NSURL(string: photoURL.urlPath)
-        let data = NSData(contentsOfURL: url!)
-        cell.photoImageView.image = UIImage(data: data!)
+        if let photoImage = retrievedPhotos[indexPath.row].image {
+            cell.photoImageView.image = photoImage
+        } else {
+            cell.activityIndicator.hidden = false
+            cell.activityIndicator.startAnimating()
+            cell.backgroundColor = UIColor.grayColor()
+            
+            let photoURL = retrievedPhotos[indexPath.row].urlPath
+            
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
+                let url = NSURL(string: photoURL)
+                let data = NSData(contentsOfURL: url!)
+                let image = UIImage(data: data!)
+                self.retrievedPhotos[indexPath.row].image = image
+                
+                dispatch_async(dispatch_get_main_queue()) {
+                    cell.activityIndicator.stopAnimating()
+                    cell.activityIndicator.hidden = true
+                    cell.photoImageView.image = image
+                }
+            }
+        }
         
         return cell
     }
