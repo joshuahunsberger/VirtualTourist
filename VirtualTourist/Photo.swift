@@ -12,6 +12,7 @@ class Photo {
     // MARK: Properties
     var urlPath: String!
     var location: Pin?
+    var image: UIImage?
     
     // MARK: Initializers
     

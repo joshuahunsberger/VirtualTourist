@@ -14,6 +14,8 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
     // MARK: Properties
     var pin: Pin!
     let activityIndicator = UIActivityIndicatorView(frame: CGRectMake(0,0,50,50))
+    var retrievedPhotos = [Photo]()
+    
     // MARK: InterfaceBuilder outlet properties
     
     @IBOutlet weak var pinMapView: MKMapView!
@@ -59,9 +61,10 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
                         return
                     }
                     
-                    for photo in photoArray {
-                        let photoObject = Photo(path: photo)
-                        pin.photos.append(photoObject)
+                    for photoPath in photoArray {
+                        let photo = Photo(path: photoPath)
+                        self.retrievedPhotos.append(photo)
+                        pin.photos.append(photo)
                     }
                     
                     dispatch_async(dispatch_get_main_queue()) {
@@ -84,7 +87,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return pin.photos.count
+        return retrievedPhotos.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
