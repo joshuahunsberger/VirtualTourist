@@ -10,17 +10,30 @@ import MapKit
 
 class Pin {
     // MARK: Properties
-    let annotation: MKPointAnnotation!
+    var latitude: Double
+    var longitude: Double
     var photos = [Photo]()
     
     // MARK: Initializers
     
     init(pin: MKPointAnnotation) {
-        annotation = pin
+        latitude = pin.coordinate.latitude
+        longitude = pin.coordinate.longitude
     }
     
     init(location: CLLocationCoordinate2D) {
-        annotation = MKPointAnnotation()
-        annotation.coordinate = location
+        latitude = location.latitude
+        longitude = location.longitude
     }
+    
+    // Computed property for annotation
+    
+    var annotation : MKPointAnnotation {
+        let pin = MKPointAnnotation()
+        pin.coordinate.latitude = latitude
+        pin.coordinate.longitude = longitude
+        
+        return pin
+    }
+    
 }
