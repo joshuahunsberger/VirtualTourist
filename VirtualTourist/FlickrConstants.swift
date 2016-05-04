@@ -52,6 +52,7 @@ extension FlickrClient {
         static let Status = "stat"
         static let Photos = "photos"
         static let Photo = "photo"
+        static let ID = "id"
         static let Title = "title"
         static let MediumURL = "url_m"
         static let Pages = "pages"
