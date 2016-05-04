@@ -86,7 +86,7 @@ extension FlickrClient {
           - longitude: Longitude to search
           - completionHandlerForSearchPhotos: Completion handler to call on success or error condition
      */
-    func searchPhotosByLatLon(latitude: Double, longitude: Double, completionHandlerForSearchPhotos: (photos: [String]?, error: NSError?) -> Void) {
+    func searchPhotosByLatLon(latitude: Double, longitude: Double, completionHandlerForSearchPhotos: (photos: [Photo]?, error: NSError?) -> Void) {
         
         func sendError(error: String){
             let userInfo = [NSLocalizedDescriptionKey: error]
@@ -143,10 +143,13 @@ extension FlickrClient {
             let randomPage = Int(arc4random_uniform(UInt32(pageLimit))) + 1
             if(randomPage == 1) {
                 // Already have the page we want, use the images on this page
-                var photoURLs = [String]()
+                var photoURLs = [Photo]()
                 for photo in photoArray {
                     if let urlString = photo[ResponseKeys.MediumURL] as? String {
-                        photoURLs.append(urlString)
+                        if let id = photo[ResponseKeys.ID] as? String {
+                            let photoObject = Photo(id: id, path: urlString)
+                            photoURLs.append(photoObject)
+                        }
                     }
                 }
                 completionHandlerForSearchPhotos(photos: photoURLs, error: nil)
@@ -167,7 +170,7 @@ extension FlickrClient {
           - parameters: The list of parameters to search
           - completionHandlerForSearchPhotos: Completion handler to call on success or error condition
      */
-    func searchPhotosByLatLon(parameters: [String: AnyObject], completionHandlerForSearchPhotos: (photos: [String]?, error: NSError?) -> Void) {
+    func searchPhotosByLatLon(parameters: [String: AnyObject], completionHandlerForSearchPhotos: (photos: [Photo]?, error: NSError?) -> Void) {
         func sendError(error: String){
             let userInfo = [NSLocalizedDescriptionKey: error]
             completionHandlerForSearchPhotos(photos: nil, error: NSError(domain: "searchPhotosByLatLon", code: 1, userInfo: userInfo))
@@ -203,10 +206,13 @@ extension FlickrClient {
                 return
             }
             
-            var photoURLs = [String]()
+            var photoURLs = [Photo]()
             for photo in photoArray {
                 if let urlString = photo[ResponseKeys.MediumURL] as? String {
-                    photoURLs.append(urlString)
+                    if let id = photo[ResponseKeys.ID] as? String {
+                        let photoObject = Photo(id: id, path: urlString)
+                        photoURLs.append(photoObject)
+                    }
                 }
             }
             completionHandlerForSearchPhotos(photos: photoURLs, error: nil)
