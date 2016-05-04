@@ -11,12 +11,13 @@ import UIKit
 class Photo {
     // MARK: Properties
     var urlPath: String!
+    var flickrID: String!
     var location: Pin?
-    var image: UIImage?
     
     // MARK: Initializers
     
-    init(path: String) {
+    init(id: String, path: String) {
+        flickrID = id
         urlPath = path
     }
 }
