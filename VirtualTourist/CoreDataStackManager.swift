@@ -12,7 +12,7 @@ import CoreData
 class CoreDataStackManager {
     
     // MARK: Properties
-    let sharedManager = CoreDataStackManager()
+    static let sharedManager = CoreDataStackManager()
     private let SQLITE_FILE_NAME = "VirtualTourist.sqlite"
     
     //TODO: Finish implementing stack manager
