@@ -14,6 +14,9 @@ class TravelMapViewController: UIViewController, MKMapViewDelegate {
     // MARK: InterfaceBuilder Outlet properties
     @IBOutlet weak var mapView: MKMapView!
     
+    // MARK: Properties
+    var pins = [Pin]()
+    
     // MARK: View lifecycle functions
     
     override func viewDidLoad() {
@@ -48,7 +51,7 @@ class TravelMapViewController: UIViewController, MKMapViewDelegate {
         let location = mapView.convertPoint(point, toCoordinateFromView: mapView)
         
         let pin = Pin(location: location)
-        
+        pins.append(pin)
         mapView.addAnnotation(pin.annotation)
     }
     
@@ -57,8 +60,13 @@ class TravelMapViewController: UIViewController, MKMapViewDelegate {
         if(segue.identifier == "showPhotoAlbumSegue") {
             let vc = segue.destinationViewController as! PhotoAlbumViewController
             let annotation = sender as! MKPointAnnotation
-            let newPin = Pin(pin: annotation)
-            vc.pin = newPin
+            
+            for pin in pins {
+                if (pin.latitude == annotation.coordinate.latitude && pin.longitude == annotation.coordinate.longitude) {
+                    vc.pin = pin
+                    break
+                }
+            }
         }
     }
     
