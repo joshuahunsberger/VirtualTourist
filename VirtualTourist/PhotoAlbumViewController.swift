@@ -94,27 +94,45 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = photoCollectionView.dequeueReusableCellWithReuseIdentifier("PhotoCollectionViewCell", forIndexPath: indexPath) as! PhotoCollectionViewCell
         
-        if let photoImage = retrievedPhotos[indexPath.row].image {
-            cell.photoImageView.image = photoImage
-        } else {
+        let photo = retrievedPhotos[indexPath.row]
+        
+        // Build URL
+        let documentsPath = CoreDataStackManager.sharedManager.applicationDocumentsDirectory
+        let filePath = NSURL.fileURLWithPath("\(photo.flickrID)", relativeToURL: documentsPath)
+        
+        let fileManager = NSFileManager()
+        
+        // Download file if it isn't already saved, otherwise retrieve it from disk
+        if !fileManager.fileExistsAtPath(filePath.path!) {
+            // Show activity indicator on gray background while fetching file from Web
             cell.activityIndicator.hidden = false
             cell.activityIndicator.startAnimating()
             cell.backgroundColor = UIColor.grayColor()
             
-            let photoURL = retrievedPhotos[indexPath.row].urlPath
-            
+            // Download on background thread
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
-                let url = NSURL(string: photoURL)
-                let data = NSData(contentsOfURL: url!)
-                let image = UIImage(data: data!)
-                self.retrievedPhotos[indexPath.row].image = image
+                let url = NSURL(string: photo.urlPath)
+                let data = NSData(contentsOfURL: url!)!
                 
+                // Save the image to disk
+                data.writeToFile(filePath.path!, atomically: true)
+                
+                // Create image
+                let image = UIImage(data: data)
+                
+                // Perform UI updates on main/UI thread
                 dispatch_async(dispatch_get_main_queue()) {
                     cell.activityIndicator.stopAnimating()
                     cell.activityIndicator.hidden = true
                     cell.photoImageView.image = image
                 }
             }
+        } else {
+            // Retrieve the image from disk, and display it.
+            cell.activityIndicator.hidden = true
+            let image = UIImage(contentsOfFile: filePath.path!)
+            
+            cell.photoImageView.image = image
         }
         
         return cell
