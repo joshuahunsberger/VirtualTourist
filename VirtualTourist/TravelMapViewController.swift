@@ -24,6 +24,17 @@ class TravelMapViewController: UIViewController, MKMapViewDelegate {
         addLongPressRecognizer()
         
         mapView.delegate = self
+        
+        // Check if map region previously set, as stored in NSUserDefaults.  If so, set it.
+        // The doubleForKey function returns 0 if the key doesn't exist, and a latitude delta of 0 shouldn't make sense.
+        if NSUserDefaults.standardUserDefaults().doubleForKey("latitudeDelta") != 0 {
+            let lat = NSUserDefaults.standardUserDefaults().doubleForKey("latitude")
+            let lon = NSUserDefaults.standardUserDefaults().doubleForKey("longitude")
+            let latDelta = NSUserDefaults.standardUserDefaults().doubleForKey("latitudeDelta")
+            let lonDelta = NSUserDefaults.standardUserDefaults().doubleForKey("longitudeDelta")
+            
+            mapView.setRegion(MKCoordinateRegionMake(CLLocationCoordinate2DMake(lat, lon), MKCoordinateSpanMake(latDelta, lonDelta)), animated: false)
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -84,6 +95,18 @@ class TravelMapViewController: UIViewController, MKMapViewDelegate {
     func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
         mapView.deselectAnnotation(view.annotation, animated: true)
         performSegueWithIdentifier("showPhotoAlbumSegue", sender: view.annotation)
+    }
+    
+    /**
+        Triggered whenever the region of the map finishes changing.
+     
+        Use this delegate function to save values to NSUserDefaults that are needed to reconstruct the map region.
+    */
+    func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        NSUserDefaults.standardUserDefaults().setDouble(mapView.region.center.latitude, forKey: "latitude")
+        NSUserDefaults.standardUserDefaults().setDouble(mapView.region.center.longitude, forKey: "longitude")
+        NSUserDefaults.standardUserDefaults().setDouble(mapView.region.span.latitudeDelta, forKey: "latitudeDelta")
+        NSUserDefaults.standardUserDefaults().setDouble(mapView.region.span.longitudeDelta, forKey: "longitudeDelta")
     }
 }
 
