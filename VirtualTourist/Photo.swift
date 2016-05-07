@@ -7,16 +7,24 @@
 //
 
 import UIKit
+import CoreData
 
-class Photo {
+class Photo: NSManagedObject {
     // MARK: Properties
-    var urlPath: String!
-    var flickrID: String!
-    var location: Pin?
+    @NSManaged var urlPath: String!
+    @NSManaged var flickrID: String!
+    @NSManaged var location: Pin?
     
     // MARK: Initializers
     
-    init(id: String, path: String) {
+    override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
+        super.init(entity: entity, insertIntoManagedObjectContext: context)
+    }
+    
+    init(id: String, path: String, context: NSManagedObjectContext) {
+        let entity = NSEntityDescription.entityForName("Photo", inManagedObjectContext: context)!
+        super.init(entity: entity, insertIntoManagedObjectContext: context)
+        
         flickrID = id
         urlPath = path
     }
