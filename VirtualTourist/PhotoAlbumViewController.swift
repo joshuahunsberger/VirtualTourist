@@ -63,8 +63,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
                         return
                     }
                     
-                    for photoPath in photoArray {
-                        let photo = Photo(path: photoPath)
+                    for photo in photoArray {
                         self.retrievedPhotos.append(photo)
                         pin.photos.append(photo)
                     }
