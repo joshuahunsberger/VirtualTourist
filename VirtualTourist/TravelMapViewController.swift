@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import CoreData
 
 class TravelMapViewController: UIViewController, MKMapViewDelegate {
 
@@ -47,6 +48,11 @@ class TravelMapViewController: UIViewController, MKMapViewDelegate {
         navigationController?.navigationBar.hidden = false
     }
 
+    // Core Data convenience property for context
+    var sharedContext: NSManagedObjectContext {
+        return CoreDataStackManager.sharedManager.managedObjectContext
+    }
+    
     /**
         This function captures a location from a gesture recognizer and
         creates a pin on the map view at that location.
@@ -61,7 +67,7 @@ class TravelMapViewController: UIViewController, MKMapViewDelegate {
         let point = recognizer.locationInView(mapView)
         let location = mapView.convertPoint(point, toCoordinateFromView: mapView)
         
-        let pin = Pin(location: location)
+        let pin = Pin(location: location, context: sharedContext)
         pins.append(pin)
         mapView.addAnnotation(pin.annotation)
     }
