@@ -33,7 +33,9 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
             pinMapView.showAnnotations([pin.annotation], animated: true)
             
             if pin.photos.count != 0 {
-                //TODO: Retrieve existing photos
+                for photo in pin.photos {
+                    retrievedPhotos.append(photo)
+                }
             } else {
                 photoUpdateButton.enabled = false
                 activityIndicator.activityIndicatorViewStyle = .WhiteLarge
