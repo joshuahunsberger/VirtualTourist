@@ -8,13 +8,13 @@
 
 import UIKit
 import MapKit
+import CoreData
 
 class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
     // MARK: Properties
     var pin: Pin!
     let activityIndicator = UIActivityIndicatorView(frame: CGRectMake(0,0,50,50))
-    var retrievedPhotos = [Photo]()
     
     // MARK: InterfaceBuilder outlet properties
     
@@ -28,15 +28,18 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
         super.viewDidLoad()
         photoCollectionView.delegate = self
         photoCollectionView.dataSource = self
+        fetchedResultsController.delegate = self
+        
+        do {
+            try fetchedResultsController.performFetch()
+        } catch let error as NSError {
+            print("Error fetching data: \(error.localizedDescription)")
+        }
         
         if let pin = pin {
             pinMapView.showAnnotations([pin.annotation], animated: true)
             
-            if pin.photos.count != 0 {
-                for photo in pin.photos {
-                    retrievedPhotos.append(photo)
-                }
-            } else {
+            if pin.photos.isEmpty {
                 photoUpdateButton.enabled = false
                 activityIndicator.activityIndicatorViewStyle = .WhiteLarge
                 view.addSubview(activityIndicator)
@@ -64,14 +67,17 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
                     }
                     
                     for photo in photoArray {
-                        self.retrievedPhotos.append(photo)
-                        pin.photos.append(photo)
+                        photo.location = self.pin
                     }
+                    
+                    self.saveContext()
                     
                     dispatch_async(dispatch_get_main_queue()) {
                         self.photoCollectionView.reloadData()
                         self.enableUIAndRemoveActivityIndicator()
                     }
+                    
+                    
                 }
             }
         }
@@ -87,18 +93,45 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
         photoCollectionView.setCollectionViewLayout(flowLayout, animated: false)
     }
     
+    // MARK: Core Data Convenience Methods/Properties
+    
+    var sharedContext = CoreDataStackManager.sharedManager.managedObjectContext
+    
+    func saveContext() {
+        CoreDataStackManager.sharedManager.saveContext()
+    }
+    
+    // Fetched Results Controller
+    
+    lazy var fetchedResultsController: NSFetchedResultsController = {
+        let fetchRequest = NSFetchRequest(entityName: "Photo")
+        fetchRequest.sortDescriptors = []
+        fetchRequest.predicate = NSPredicate(format: "location == %@", self.pin)
+        
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.sharedContext, sectionNameKeyPath: nil, cacheName: nil)
+        
+        return fetchedResultsController
+    }()
+    
+    // MARK: Collection View Methods
+    
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        return self.fetchedResultsController.sections?.count ?? 0
+    }
+    
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return retrievedPhotos.count
+        let sectionInfo = self.fetchedResultsController.sections![section]
+        return sectionInfo.numberOfObjects
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = photoCollectionView.dequeueReusableCellWithReuseIdentifier("PhotoCollectionViewCell", forIndexPath: indexPath) as! PhotoCollectionViewCell
         
-        let photo = retrievedPhotos[indexPath.row]
+        let photo = fetchedResultsController.objectAtIndexPath(indexPath) as! Photo
         
         // Build URL
         let documentsPath = CoreDataStackManager.sharedManager.applicationDocumentsDirectory
-        let filePath = NSURL.fileURLWithPath("\(photo.flickrID)", relativeToURL: documentsPath)
+        let filePath = NSURL.fileURLWithPath("\(photo.id)", relativeToURL: documentsPath)
         
         let fileManager = NSFileManager()
         
@@ -142,5 +175,37 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
         photoUpdateButton.enabled = true
         activityIndicator.stopAnimating()
         activityIndicator.removeFromSuperview()
+    }
+}
+
+// MARK: Fetched Results Controller Delegate Functions
+
+extension PhotoAlbumViewController: NSFetchedResultsControllerDelegate {
+    
+    func controllerWillChangeContent(controller: NSFetchedResultsController) {
+        print("in controllerWillChangeContent")
+        // TODO: Start out with empty arrays for items to be changed.
+    }
+    
+    func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
+        
+        // TODO: Build out logic for updating changed index arrays in switch statement
+        
+        switch type {
+            
+        case .Insert:
+            print("Insert an item")
+        case .Delete:
+            print("Delete an item")
+        case .Update:
+            print("Update an item")
+        case .Move:
+            print("Move an item")
+        }
+    }
+    
+    func controllerDidChangeContent(controller: NSFetchedResultsController) {
+        // TODO: Perform batch updates for each of the change types
+        print("in controllerDidChangeContent")
     }
 }
