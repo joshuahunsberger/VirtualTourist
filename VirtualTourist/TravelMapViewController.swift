@@ -11,18 +11,39 @@ import MapKit
 import CoreData
 
 class TravelMapViewController: UIViewController, MKMapViewDelegate {
+    // MARK: Enumeration defining the current editing mode of the view controller
+    enum EditingMode {
+        case editingOn
+        case editingOff
+    }
+    
+    
+    // MARK: Constants
+    
+    let DELETE_LABEL_HEIGHT_EXPANDED: CGFloat  = 50.0
+    let DELETE_LABEL_HEIGHT_COLLAPSED: CGFloat = 0.0
+    let ANIMATION_DURATION: Double = 0.1
+
 
     // MARK: InterfaceBuilder Outlet properties
+    
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var deleteLabel: UILabel!
+    @IBOutlet weak var deleteLabelHeightConstraint: NSLayoutConstraint!
+    
     
     // MARK: Properties
+    
     var pins = [Pin]()
+    var mode: EditingMode!
+    
     
     // MARK: View lifecycle functions
     
     override func viewDidLoad() {
         super.viewDidLoad()
         addLongPressRecognizer()
+        initializeEditingMode()
         
         mapView.delegate = self
         
@@ -79,6 +100,35 @@ class TravelMapViewController: UIViewController, MKMapViewDelegate {
         CoreDataStackManager.sharedManager.saveContext()
     }
     
+    /**
+        This function toggles the class mode property and updates the UI to reflect the current 
+        editing state.
+     
+        The mode property is used by other functions to determine the behavior that should be applied
+        to different actions.
+    */
+    func toggleEditingMode() {
+        if(mode == EditingMode.editingOff) {
+            mode = EditingMode.editingOn
+            navigationItem.rightBarButtonItem?.style = .Done
+            navigationItem.rightBarButtonItem?.title = "Done"
+            deleteLabelHeightConstraint.constant = DELETE_LABEL_HEIGHT_EXPANDED
+        } else {
+            mode = EditingMode.editingOff
+            navigationItem.rightBarButtonItem?.style = .Plain
+            navigationItem.rightBarButtonItem?.title = "Edit"
+            deleteLabelHeightConstraint.constant = DELETE_LABEL_HEIGHT_COLLAPSED
+        }
+        
+        deleteLabel.hidden = !deleteLabel.hidden
+        
+        // Animate the layout change to make the transition smoother, as indicated by this StackOverFlow
+        // answer: http://stackoverflow.com/a/25650669/6217795
+        UIView.animateWithDuration(ANIMATION_DURATION) {
+            self.view.layoutIfNeeded()
+        }
+    }
+    
     /// Function to lay out what happens when segues are triggerd
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if(segue.identifier == "showPhotoAlbumSegue") {
@@ -94,6 +144,7 @@ class TravelMapViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
+    
     // MARK: UI Setup functions
     
     /// Creates a long press gesture recognizer and adds it to the map view
@@ -101,6 +152,16 @@ class TravelMapViewController: UIViewController, MKMapViewDelegate {
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(TravelMapViewController.addPinFromLongPress))
         mapView.addGestureRecognizer(longPressRecognizer)
     }
+    
+    /// Initializes the editing mode to off and sets up the UI elements for toggling that status
+    func initializeEditingMode() {
+        let editButton = UIBarButtonItem(title: "Edit", style: .Plain, target: self, action: #selector(TravelMapViewController.toggleEditingMode))
+        navigationItem.rightBarButtonItem = editButton
+        mode = EditingMode.editingOff
+        deleteLabel.hidden = true
+        deleteLabelHeightConstraint.constant = DELETE_LABEL_HEIGHT_COLLAPSED
+    }
+    
     
     // MARK: MKMapView Delegate Functions
     

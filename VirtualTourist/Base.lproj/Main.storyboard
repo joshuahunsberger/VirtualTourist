@@ -18,19 +18,40 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="gWy-Kd-cp4">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="550"/>
                             </mapView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap Pins To Delete" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gpx-Td-ts2">
+                                <rect key="frame" x="0.0" y="550" width="600" height="50"/>
+                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="dT7-Wa-euq"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Gpx-Td-ts2" secondAttribute="trailing" id="La1-Hg-OH7"/>
                             <constraint firstItem="gWy-Kd-cp4" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="O4P-y2-K2K"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="gWy-Kd-cp4" secondAttribute="bottom" id="Ys0-R0-bbw"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Gpx-Td-ts2" secondAttribute="bottom" id="bpz-17-LhZ"/>
+                            <constraint firstItem="Gpx-Td-ts2" firstAttribute="top" secondItem="gWy-Kd-cp4" secondAttribute="bottom" id="jg8-8X-bX3"/>
+                            <constraint firstItem="Gpx-Td-ts2" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="sit-No-toJ"/>
                             <constraint firstItem="gWy-Kd-cp4" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="x0u-b3-gGs"/>
                             <constraint firstAttribute="trailing" secondItem="gWy-Kd-cp4" secondAttribute="trailing" id="z9Q-Aq-1kh"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="Ys0-R0-bbw"/>
+                            </mask>
+                        </variation>
                     </view>
                     <navigationItem key="navigationItem" title="Virtual Tourist" id="yaa-0S-2cz"/>
                     <connections>
+                        <outlet property="deleteLabel" destination="Gpx-Td-ts2" id="4mW-nO-mam"/>
+                        <outlet property="deleteLabelHeightConstraint" destination="dT7-Wa-euq" id="Par-1C-dQY"/>
                         <outlet property="mapView" destination="gWy-Kd-cp4" id="891-pm-kQO"/>
                         <segue destination="t4M-Dj-EFy" kind="show" identifier="showPhotoAlbumSegue" id="xvb-ir-LD6"/>
                     </connections>
