@@ -172,10 +172,28 @@ class TravelMapViewController: UIViewController, MKMapViewDelegate {
     
     // MARK: MKMapView Delegate Functions
     
-    /// Triggers a segue to the photo album view whenever a pin is pressed 
+    /**
+        Handles a press of an annotation based on the currently active editing mode.
+     
+        -EditingMode.editingOff: Triggers a segue to the photo album view whenever a pin is pressed
+        -EditingMode.editingOn: Deletes the selected pin.
+    */
     func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
-        mapView.deselectAnnotation(view.annotation, animated: true)
-        performSegueWithIdentifier("showPhotoAlbumSegue", sender: view.annotation)
+        if(mode == EditingMode.editingOff){
+            mapView.deselectAnnotation(view.annotation, animated: true)
+            performSegueWithIdentifier("showPhotoAlbumSegue", sender: view.annotation)
+        } else {
+            let annotation = view.annotation as! MKPointAnnotation
+            for pin in pins {
+                if (pin.latitude == annotation.coordinate.latitude && pin.longitude == annotation.coordinate.longitude) {
+                    sharedContext.deleteObject(pin)
+                    pins.removeAtIndex(pins.indexOf(pin)!)
+                    mapView.removeAnnotation(annotation)
+                    CoreDataStackManager.sharedManager.saveContext()
+                    break
+                }
+            }
+        }
     }
     
     /**
