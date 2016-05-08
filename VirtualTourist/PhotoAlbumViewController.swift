@@ -20,7 +20,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
     
     @IBOutlet weak var pinMapView: MKMapView!
     @IBOutlet weak var photoCollectionView: UICollectionView!
-    @IBOutlet weak var photoUpdateButton: UIButton!
+    @IBOutlet weak var photoUpdateButton: UIBarButtonItem!
     
     // MARK: View lifecycle functions
     

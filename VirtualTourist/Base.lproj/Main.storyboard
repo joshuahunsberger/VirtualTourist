@@ -115,22 +115,26 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="25X-Jn-PRX">
-                                <rect key="frame" x="0.0" y="555" width="600" height="45"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="45" id="4lV-7I-NkD"/>
-                                </constraints>
-                                <state key="normal" title="New Collection"/>
-                            </button>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MWa-ej-NbC">
+                                <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="G0n-U6-iDu"/>
+                                    <barButtonItem title="New Collection" id="blO-JQ-Xb0">
+                                        <connections>
+                                            <action selector="photoUpdateButtonPressed:" destination="t4M-Dj-EFy" id="wPT-Rv-bFS"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="hIb-bf-H5a"/>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="Q8c-sl-4Aa" secondAttribute="trailing" id="3uD-Fd-bUJ"/>
-                            <constraint firstAttribute="trailing" secondItem="25X-Jn-PRX" secondAttribute="trailing" id="Ats-9c-V4O"/>
                             <constraint firstItem="Q8c-sl-4Aa" firstAttribute="top" secondItem="PiR-kz-5Uu" secondAttribute="bottom" id="CtS-BZ-BkE"/>
-                            <constraint firstItem="u2G-ej-B5g" firstAttribute="top" secondItem="25X-Jn-PRX" secondAttribute="bottom" id="TWX-KA-Zp7"/>
-                            <constraint firstItem="25X-Jn-PRX" firstAttribute="leading" secondItem="jnc-QQ-XfJ" secondAttribute="leading" id="bJP-Jl-FCN"/>
+                            <constraint firstItem="u2G-ej-B5g" firstAttribute="top" secondItem="MWa-ej-NbC" secondAttribute="bottom" id="IDZ-Ox-ZRo"/>
+                            <constraint firstAttribute="trailing" secondItem="MWa-ej-NbC" secondAttribute="trailing" id="Twp-Qm-4N0"/>
+                            <constraint firstItem="MWa-ej-NbC" firstAttribute="leading" secondItem="jnc-QQ-XfJ" secondAttribute="leading" id="UrT-Wo-URd"/>
                             <constraint firstAttribute="trailing" secondItem="N5U-8V-Jzt" secondAttribute="trailing" id="dii-qM-SXj"/>
                             <constraint firstItem="N5U-8V-Jzt" firstAttribute="top" secondItem="Q8c-sl-4Aa" secondAttribute="bottom" id="gKa-Sm-Tau"/>
                             <constraint firstItem="u2G-ej-B5g" firstAttribute="top" secondItem="N5U-8V-Jzt" secondAttribute="bottom" id="je8-75-EVn"/>
@@ -141,7 +145,7 @@
                     <navigationItem key="navigationItem" id="aV9-xh-hDh"/>
                     <connections>
                         <outlet property="photoCollectionView" destination="N5U-8V-Jzt" id="9sY-zR-Ls6"/>
-                        <outlet property="photoUpdateButton" destination="25X-Jn-PRX" id="5ju-Mp-Jlf"/>
+                        <outlet property="photoUpdateButton" destination="blO-JQ-Xb0" id="1kA-Cd-lEv"/>
                         <outlet property="pinMapView" destination="Q8c-sl-4Aa" id="vPc-cX-z2c"/>
                     </connections>
                 </viewController>
