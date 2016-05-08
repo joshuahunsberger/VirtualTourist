@@ -35,18 +35,12 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="Gpx-Td-ts2" secondAttribute="trailing" id="La1-Hg-OH7"/>
                             <constraint firstItem="gWy-Kd-cp4" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="O4P-y2-K2K"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="gWy-Kd-cp4" secondAttribute="bottom" id="Ys0-R0-bbw"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Gpx-Td-ts2" secondAttribute="bottom" id="bpz-17-LhZ"/>
                             <constraint firstItem="Gpx-Td-ts2" firstAttribute="top" secondItem="gWy-Kd-cp4" secondAttribute="bottom" id="jg8-8X-bX3"/>
                             <constraint firstItem="Gpx-Td-ts2" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="sit-No-toJ"/>
                             <constraint firstItem="gWy-Kd-cp4" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="x0u-b3-gGs"/>
                             <constraint firstAttribute="trailing" secondItem="gWy-Kd-cp4" secondAttribute="trailing" id="z9Q-Aq-1kh"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="Ys0-R0-bbw"/>
-                            </mask>
-                        </variation>
                     </view>
                     <navigationItem key="navigationItem" title="Virtual Tourist" id="yaa-0S-2cz"/>
                     <connections>
@@ -79,7 +73,7 @@
                                 </constraints>
                             </mapView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="N5U-8V-Jzt">
-                                <rect key="frame" x="0.0" y="194" width="600" height="406"/>
+                                <rect key="frame" x="0.0" y="194" width="600" height="362"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="jBS-zx-axF">
                                     <size key="itemSize" width="150" height="150"/>
@@ -132,12 +126,12 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="Q8c-sl-4Aa" secondAttribute="trailing" id="3uD-Fd-bUJ"/>
                             <constraint firstItem="Q8c-sl-4Aa" firstAttribute="top" secondItem="PiR-kz-5Uu" secondAttribute="bottom" id="CtS-BZ-BkE"/>
+                            <constraint firstItem="MWa-ej-NbC" firstAttribute="top" secondItem="N5U-8V-Jzt" secondAttribute="bottom" id="DNs-Hd-DBx"/>
                             <constraint firstItem="u2G-ej-B5g" firstAttribute="top" secondItem="MWa-ej-NbC" secondAttribute="bottom" id="IDZ-Ox-ZRo"/>
                             <constraint firstAttribute="trailing" secondItem="MWa-ej-NbC" secondAttribute="trailing" id="Twp-Qm-4N0"/>
                             <constraint firstItem="MWa-ej-NbC" firstAttribute="leading" secondItem="jnc-QQ-XfJ" secondAttribute="leading" id="UrT-Wo-URd"/>
                             <constraint firstAttribute="trailing" secondItem="N5U-8V-Jzt" secondAttribute="trailing" id="dii-qM-SXj"/>
                             <constraint firstItem="N5U-8V-Jzt" firstAttribute="top" secondItem="Q8c-sl-4Aa" secondAttribute="bottom" id="gKa-Sm-Tau"/>
-                            <constraint firstItem="u2G-ej-B5g" firstAttribute="top" secondItem="N5U-8V-Jzt" secondAttribute="bottom" id="je8-75-EVn"/>
                             <constraint firstItem="Q8c-sl-4Aa" firstAttribute="leading" secondItem="jnc-QQ-XfJ" secondAttribute="leading" id="khh-bK-54U"/>
                             <constraint firstItem="N5U-8V-Jzt" firstAttribute="leading" secondItem="jnc-QQ-XfJ" secondAttribute="leading" id="vpp-i2-IBv"/>
                         </constraints>
