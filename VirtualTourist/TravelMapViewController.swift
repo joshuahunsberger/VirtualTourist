@@ -47,16 +47,7 @@ class TravelMapViewController: UIViewController, MKMapViewDelegate {
         
         mapView.delegate = self
         
-        // Check if map region previously set, as stored in NSUserDefaults.  If so, set it.
-        // The doubleForKey function returns 0 if the key doesn't exist, and a latitude delta of 0 shouldn't make sense.
-        if NSUserDefaults.standardUserDefaults().doubleForKey("latitudeDelta") != 0 {
-            let lat = NSUserDefaults.standardUserDefaults().doubleForKey("latitude")
-            let lon = NSUserDefaults.standardUserDefaults().doubleForKey("longitude")
-            let latDelta = NSUserDefaults.standardUserDefaults().doubleForKey("latitudeDelta")
-            let lonDelta = NSUserDefaults.standardUserDefaults().doubleForKey("longitudeDelta")
-            
-            mapView.setRegion(MKCoordinateRegionMake(CLLocationCoordinate2DMake(lat, lon), MKCoordinateSpanMake(latDelta, lonDelta)), animated: false)
-        }
+        initializeMapRegion()
         
         // Load pins from Core Data
         let fetchRequest = NSFetchRequest(entityName: "Pin")
@@ -162,6 +153,22 @@ class TravelMapViewController: UIViewController, MKMapViewDelegate {
         deleteLabelHeightConstraint.constant = DELETE_LABEL_HEIGHT_COLLAPSED
     }
     
+    /**
+        Initializes the map region
+        
+        Check if map region previously set, as stored in NSUserDefaults.  If so, set it.
+        The doubleForKey function returns 0 if the key doesn't exist, and a latitude delta of 0 shouldn't make sense.
+    */
+    func initializeMapRegion() {
+        if NSUserDefaults.standardUserDefaults().doubleForKey("latitudeDelta") != 0 {
+            let lat = NSUserDefaults.standardUserDefaults().doubleForKey("latitude")
+            let lon = NSUserDefaults.standardUserDefaults().doubleForKey("longitude")
+            let latDelta = NSUserDefaults.standardUserDefaults().doubleForKey("latitudeDelta")
+            let lonDelta = NSUserDefaults.standardUserDefaults().doubleForKey("longitudeDelta")
+            
+            mapView.setRegion(MKCoordinateRegionMake(CLLocationCoordinate2DMake(lat, lon), MKCoordinateSpanMake(latDelta, lonDelta)), animated: false)
+        }
+    }
     
     // MARK: MKMapView Delegate Functions
     
