@@ -19,7 +19,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
     var insertedIndexPaths: [NSIndexPath]!
     var deletedIndexPaths: [NSIndexPath]!
     var updatedIndexPaths: [NSIndexPath]!
-    
+    var emptyMessageLabel: UILabel!
     
     // MARK: InterfaceBuilder outlet properties
     
@@ -59,6 +59,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
         flowLayout.itemSize = CGSizeMake(dimension, dimension)
         
         photoCollectionView.setCollectionViewLayout(flowLayout, animated: false)
+        configureEmptyMessageLabel()
     }
     
     
@@ -132,6 +133,13 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let sectionInfo = self.fetchedResultsController.sections![section]
+        
+        if(sectionInfo.numberOfObjects == 0) {
+            emptyMessageLabel.hidden = false
+        } else {
+            emptyMessageLabel.hidden = true
+        }
+        
         return sectionInfo.numberOfObjects
     }
     
@@ -155,6 +163,16 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
         configureCell(cell, atIndexPath: indexPath)
         
         updateBottomButton()
+    }
+    
+    func configureEmptyMessageLabel() {
+        emptyMessageLabel = UILabel(frame: CGRectMake(0,0,photoCollectionView.bounds.size.width, photoCollectionView.bounds.size.height))
+        emptyMessageLabel.text = "There are no photos to show for this location."
+        emptyMessageLabel.textAlignment = NSTextAlignment.Center
+        emptyMessageLabel.lineBreakMode = NSLineBreakMode.ByWordWrapping
+        emptyMessageLabel.numberOfLines = 2
+        emptyMessageLabel.sizeToFit()
+        photoCollectionView.backgroundView = emptyMessageLabel
     }
     
     func configureCell(cell: PhotoCollectionViewCell, atIndexPath indexPath: NSIndexPath) {
