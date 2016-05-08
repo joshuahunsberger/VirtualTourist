@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 import CoreData
 
-class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource {
     
     // MARK: Properties
     var pin: Pin!
@@ -141,20 +141,6 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
         configureCell(cell, atIndexPath: indexPath)
         
         return cell
-    }
-    
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let cell = collectionView.cellForItemAtIndexPath(indexPath) as! PhotoCollectionViewCell
-        
-        if let index = selectedIndexes.indexOf(indexPath) {
-            selectedIndexes.removeAtIndex(index)
-        } else {
-            selectedIndexes.append(indexPath)
-        }
-        
-        configureCell(cell, atIndexPath: indexPath)
-        
-        updateBottomButton()
     }
     
     /// Configure a flow layout for the collection view
@@ -302,6 +288,21 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
     }
 }
 
+extension PhotoAlbumViewController: UICollectionViewDelegate {
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        let cell = collectionView.cellForItemAtIndexPath(indexPath) as! PhotoCollectionViewCell
+        
+        if let index = selectedIndexes.indexOf(indexPath) {
+            selectedIndexes.removeAtIndex(index)
+        } else {
+            selectedIndexes.append(indexPath)
+        }
+        
+        configureCell(cell, atIndexPath: indexPath)
+        
+        updateBottomButton()
+    }
+}
 
 // MARK: Fetched Results Controller Delegate Functions
 
