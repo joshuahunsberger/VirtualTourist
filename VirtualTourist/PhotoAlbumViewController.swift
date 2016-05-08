@@ -235,6 +235,20 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
         }
     }
     
+    func deleteSelectedPhotos() {
+        var photosToDelete = [Photo]()
+        
+        for indexPath in selectedIndexes {
+            photosToDelete.append(fetchedResultsController.objectAtIndexPath(indexPath) as! Photo)
+        }
+        
+        for photo in photosToDelete {
+            sharedContext.deleteObject(photo)
+        }
+        
+        selectedIndexes = [NSIndexPath]()
+    }
+    
     func updateBottomButton() {
         if (selectedIndexes.count > 0) {
             photoUpdateButton.title = "Remove Selected Photos"
@@ -247,10 +261,15 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
     // MARK: Interface Builder Action Functions
     
     @IBAction func photoUpdateButtonPressed(sender: AnyObject) {
-        // Delete existing images
-        deleteAllPhotos()
-        //Download new images
-        downloadFlickrImages()
+        if (selectedIndexes.count > 0) {
+            deleteSelectedPhotos()
+        } else {
+            // Delete existing images
+            deleteAllPhotos()
+            //Download new images
+            downloadFlickrImages()
+        }
+        updateBottomButton()
     }
 }
 
