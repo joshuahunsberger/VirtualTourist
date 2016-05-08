@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 import CoreData
 
-class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource {
+class PhotoAlbumViewController: UIViewController {
     
     // MARK: Properties
     var pin: Pin!
@@ -114,33 +114,6 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource {
                 self.enableUIAndRemoveActivityIndicator()
             }
         }
-    }
-    
-    
-    // MARK: Collection View Methods
-    
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return self.fetchedResultsController.sections?.count ?? 0
-    }
-    
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let sectionInfo = self.fetchedResultsController.sections![section]
-        
-        if(sectionInfo.numberOfObjects == 0) {
-            emptyMessageLabel.hidden = false
-        } else {
-            emptyMessageLabel.hidden = true
-        }
-        
-        return sectionInfo.numberOfObjects
-    }
-    
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = photoCollectionView.dequeueReusableCellWithReuseIdentifier("PhotoCollectionViewCell", forIndexPath: indexPath) as! PhotoCollectionViewCell
-        
-        configureCell(cell, atIndexPath: indexPath)
-        
-        return cell
     }
     
     /// Configure a flow layout for the collection view
@@ -301,6 +274,32 @@ extension PhotoAlbumViewController: UICollectionViewDelegate {
         configureCell(cell, atIndexPath: indexPath)
         
         updateBottomButton()
+    }
+}
+
+extension PhotoAlbumViewController: UICollectionViewDataSource {
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        return self.fetchedResultsController.sections?.count ?? 0
+    }
+    
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        let sectionInfo = self.fetchedResultsController.sections![section]
+        
+        if(sectionInfo.numberOfObjects == 0) {
+            emptyMessageLabel.hidden = false
+        } else {
+            emptyMessageLabel.hidden = true
+        }
+        
+        return sectionInfo.numberOfObjects
+    }
+    
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell = photoCollectionView.dequeueReusableCellWithReuseIdentifier("PhotoCollectionViewCell", forIndexPath: indexPath) as! PhotoCollectionViewCell
+        
+        configureCell(cell, atIndexPath: indexPath)
+        
+        return cell
     }
 }
 
