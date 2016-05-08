@@ -298,10 +298,10 @@ extension PhotoAlbumViewController: NSFetchedResultsControllerDelegate {
             insertedIndexPaths.append(newIndexPath!)
             break
         case .Delete:
-            deletedIndexPaths.append(newIndexPath!)
+            deletedIndexPaths.append(indexPath!)
             break
         case .Update:
-            updatedIndexPaths.append(newIndexPath!)
+            updatedIndexPaths.append(indexPath!)
         case .Move:
             print("Item moved. This shouldn't occur.")
             break
