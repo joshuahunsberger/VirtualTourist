@@ -309,7 +309,22 @@ extension PhotoAlbumViewController: NSFetchedResultsControllerDelegate {
     }
     
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
-        // TODO: Perform batch updates for each of the change types
-        print("in controllerDidChangeContent")
+        
+        photoCollectionView.performBatchUpdates({() -> Void in
+            // Perform insertions
+            for indexPath in self.insertedIndexPaths {
+                self.photoCollectionView.insertItemsAtIndexPaths([indexPath])
+            }
+            
+            // Perform deletions
+            for indexPath in self.deletedIndexPaths {
+                self.photoCollectionView.deleteItemsAtIndexPaths([indexPath])
+            }
+            
+            // Perform updates
+            for indexPath in self.updatedIndexPaths {
+                self.photoCollectionView.reloadItemsAtIndexPaths([indexPath])
+            }
+        }, completion: nil)
     }
 }
