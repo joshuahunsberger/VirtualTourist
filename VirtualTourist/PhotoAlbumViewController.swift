@@ -40,45 +40,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
             pinMapView.showAnnotations([pin.annotation], animated: true)
             
             if pin.photos.isEmpty {
-                photoUpdateButton.enabled = false
-                activityIndicator.activityIndicatorViewStyle = .WhiteLarge
-                view.addSubview(activityIndicator)
-                activityIndicator.frame = view.frame
-                activityIndicator.center = view.center
-                activityIndicator.layer.backgroundColor = UIColor.grayColor().colorWithAlphaComponent(0.75).CGColor
-                activityIndicator.startAnimating()
-
-                
-                FlickrClient.sharedInstance.searchPhotosByLatLon(pin.annotation.coordinate.latitude, longitude: pin.annotation.coordinate.longitude) { (photos, error) in
-                    guard (error == nil) else {
-                        print("Error: \(error!.localizedDescription)")
-                        dispatch_async(dispatch_get_main_queue()) {
-                            self.enableUIAndRemoveActivityIndicator()
-                        }
-                        return
-                    }
-                    
-                    guard let photoArray = photos else {
-                        print("Error accessing photos.")
-                        dispatch_async(dispatch_get_main_queue()) {
-                            self.enableUIAndRemoveActivityIndicator()
-                        }
-                        return
-                    }
-                    
-                    for photo in photoArray {
-                        photo.location = self.pin
-                    }
-                    
-                    self.saveContext()
-                    
-                    dispatch_async(dispatch_get_main_queue()) {
-                        self.photoCollectionView.reloadData()
-                        self.enableUIAndRemoveActivityIndicator()
-                    }
-                    
-                    
-                }
+                downloadFlickrImages()
             }
         }
         
@@ -112,6 +74,47 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
         
         return fetchedResultsController
     }()
+    
+    /// This function downloads a list of images from Flickr and updates the collection view on completion
+    func downloadFlickrImages() {
+        photoUpdateButton.enabled = false
+        activityIndicator.activityIndicatorViewStyle = .WhiteLarge
+        view.addSubview(activityIndicator)
+        activityIndicator.frame = view.frame
+        activityIndicator.center = view.center
+        activityIndicator.layer.backgroundColor = UIColor.grayColor().colorWithAlphaComponent(0.75).CGColor
+        activityIndicator.startAnimating()
+        
+        
+        FlickrClient.sharedInstance.searchPhotosByLatLon(pin.annotation.coordinate.latitude, longitude: pin.annotation.coordinate.longitude) { (photos, error) in
+            guard (error == nil) else {
+                print("Error: \(error!.localizedDescription)")
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.enableUIAndRemoveActivityIndicator()
+                }
+                return
+            }
+            
+            guard let photoArray = photos else {
+                print("Error accessing photos.")
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.enableUIAndRemoveActivityIndicator()
+                }
+                return
+            }
+            
+            for photo in photoArray {
+                photo.location = self.pin
+            }
+            
+            self.saveContext()
+            
+            dispatch_async(dispatch_get_main_queue()) {
+                self.photoCollectionView.reloadData()
+                self.enableUIAndRemoveActivityIndicator()
+            }
+        }
+    }
     
     // MARK: Collection View Methods
     
