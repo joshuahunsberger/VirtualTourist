@@ -144,6 +144,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
             cell.activityIndicator.hidden = false
             cell.activityIndicator.startAnimating()
             cell.backgroundColor = UIColor.grayColor()
+            cell.photoImageView.image = nil
             
             // Download on background thread
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
