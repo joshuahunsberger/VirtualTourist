@@ -147,7 +147,7 @@ extension FlickrClient {
                 for photo in photoArray {
                     if let urlString = photo[ResponseKeys.MediumURL] as? String {
                         if let id = photo[ResponseKeys.ID] as? String {
-                            let photoObject = Photo(id: id, path: urlString)
+                            let photoObject = Photo(id: id, path: urlString, context: CoreDataStackManager.sharedManager.managedObjectContext)
                             photoURLs.append(photoObject)
                         }
                     }
@@ -210,7 +210,7 @@ extension FlickrClient {
             for photo in photoArray {
                 if let urlString = photo[ResponseKeys.MediumURL] as? String {
                     if let id = photo[ResponseKeys.ID] as? String {
-                        let photoObject = Photo(id: id, path: urlString)
+                        let photoObject = Photo(id: id, path: urlString, context: CoreDataStackManager.sharedManager.managedObjectContext)//Photo(id: id, path: urlString, context: CoreDataStackManager.sharedManager.managedObjectContext)
                         photoURLs.append(photoObject)
                     }
                 }
