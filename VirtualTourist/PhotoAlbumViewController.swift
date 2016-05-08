@@ -15,7 +15,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
     // MARK: Properties
     var pin: Pin!
     let activityIndicator = UIActivityIndicatorView(frame: CGRectMake(0,0,50,50))
-    
+    var selectedIndexes = [NSIndexPath]()
     
     // MARK: InterfaceBuilder outlet properties
     
@@ -179,6 +179,21 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
         return cell
     }
     
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        let cell = collectionView.cellForItemAtIndexPath(indexPath) as! PhotoCollectionViewCell
+        
+        if let index = selectedIndexes.indexOf(indexPath) {
+            selectedIndexes.removeAtIndex(index)
+            cell.photoImageView.alpha = 1.0
+        } else {
+            selectedIndexes.append(indexPath)
+            cell.photoImageView.alpha = 0.5
+        }
+        
+        // Update the title of the bottom button
+        updateBottomButton()
+    }
+    
     func enableUIAndRemoveActivityIndicator() {
         photoUpdateButton.enabled = true
         activityIndicator.stopAnimating()
@@ -211,6 +226,14 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
         }
     }
     
+    func updateBottomButton() {
+        if (selectedIndexes.count > 0) {
+            photoUpdateButton.title = "Remove Selected Photos"
+        } else {
+            photoUpdateButton.title = "New Collection"
+        }
+    }
+    
     
     // MARK: Interface Builder Action Functions
     
@@ -219,7 +242,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
         deleteAllPhotos()
         //Download new images
         downloadFlickrImages()
-    }    
+    }
 }
 
 
