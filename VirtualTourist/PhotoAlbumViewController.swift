@@ -16,6 +16,10 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
     var pin: Pin!
     let activityIndicator = UIActivityIndicatorView(frame: CGRectMake(0,0,50,50))
     var selectedIndexes = [NSIndexPath]()
+    var insertedIndexPaths: [NSIndexPath]!
+    var deletedIndexPaths: [NSIndexPath]!
+    var updatedIndexPaths: [NSIndexPath]!
+    
     
     // MARK: InterfaceBuilder outlet properties
     
@@ -278,9 +282,12 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
 
 extension PhotoAlbumViewController: NSFetchedResultsControllerDelegate {
     
+    /// This function is invoked when changes are about to occur with Core Data.
+    /// Zero out the arrays used to track which items are changing.
     func controllerWillChangeContent(controller: NSFetchedResultsController) {
-        print("in controllerWillChangeContent")
-        // TODO: Start out with empty arrays for items to be changed.
+        insertedIndexPaths = [NSIndexPath]()
+        deletedIndexPaths = [NSIndexPath]()
+        updatedIndexPaths = [NSIndexPath]()
     }
     
     func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
