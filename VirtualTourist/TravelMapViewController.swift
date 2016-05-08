@@ -36,6 +36,21 @@ class TravelMapViewController: UIViewController, MKMapViewDelegate {
             
             mapView.setRegion(MKCoordinateRegionMake(CLLocationCoordinate2DMake(lat, lon), MKCoordinateSpanMake(latDelta, lonDelta)), animated: false)
         }
+        
+        // Load pins from Core Data
+        let fetchRequest = NSFetchRequest(entityName: "Pin")
+        
+        do {
+            let results = try sharedContext.executeFetchRequest(fetchRequest)
+            for result in results {
+                let pin = result as! Pin
+                pins.append(pin)
+                mapView.addAnnotation(pin.annotation)
+            }
+        } catch {
+            // Error fetching saved pins
+            print("Error fetching saved pins.")
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -70,6 +85,8 @@ class TravelMapViewController: UIViewController, MKMapViewDelegate {
         let pin = Pin(location: location, context: sharedContext)
         pins.append(pin)
         mapView.addAnnotation(pin.annotation)
+        
+        CoreDataStackManager.sharedManager.saveContext()
     }
     
     /// Function to lay out what happens when segues are triggerd
