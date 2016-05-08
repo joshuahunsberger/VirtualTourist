@@ -144,13 +144,12 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
         
         if let index = selectedIndexes.indexOf(indexPath) {
             selectedIndexes.removeAtIndex(index)
-            cell.photoImageView.alpha = 1.0
         } else {
             selectedIndexes.append(indexPath)
-            cell.photoImageView.alpha = 0.5
         }
         
-        // Update the title of the bottom button
+        configureCell(cell, atIndexPath: indexPath)
+        
         updateBottomButton()
     }
     
