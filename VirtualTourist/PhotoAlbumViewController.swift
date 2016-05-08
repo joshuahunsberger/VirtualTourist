@@ -16,11 +16,13 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
     var pin: Pin!
     let activityIndicator = UIActivityIndicatorView(frame: CGRectMake(0,0,50,50))
     
+    
     // MARK: InterfaceBuilder outlet properties
     
     @IBOutlet weak var pinMapView: MKMapView!
     @IBOutlet weak var photoCollectionView: UICollectionView!
     @IBOutlet weak var photoUpdateButton: UIBarButtonItem!
+    
     
     // MARK: View lifecycle functions
     
@@ -54,6 +56,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
         
         photoCollectionView.setCollectionViewLayout(flowLayout, animated: false)
     }
+    
     
     // MARK: Core Data Convenience Methods/Properties
     
@@ -115,6 +118,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
             }
         }
     }
+    
     
     // MARK: Collection View Methods
     
@@ -207,6 +211,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
         }
     }
     
+    
     // MARK: Interface Builder Action Functions
     
     @IBAction func photoUpdateButtonPressed(sender: AnyObject) {
@@ -214,10 +219,9 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
         deleteAllPhotos()
         //Download new images
         downloadFlickrImages()
-    }
-    
-    
+    }    
 }
+
 
 // MARK: Fetched Results Controller Delegate Functions
 
