@@ -21,6 +21,7 @@ class PhotoAlbumViewController: UIViewController {
     var updatedIndexPaths: [NSIndexPath]!
     var emptyMessageLabel: UILabel!
     
+    
     // MARK: InterfaceBuilder outlet properties
     
     @IBOutlet weak var pinMapView: MKMapView!
@@ -55,7 +56,7 @@ class PhotoAlbumViewController: UIViewController {
     }
     
     
-    // MARK: Core Data Convenience Methods/Properties
+    // MARK: Core Data Convenience Functions/Properties
     
     var sharedContext = CoreDataStackManager.sharedManager.managedObjectContext
     
@@ -63,7 +64,8 @@ class PhotoAlbumViewController: UIViewController {
         CoreDataStackManager.sharedManager.saveContext()
     }
     
-    // Fetched Results Controller
+    
+    // MARK: Fetched Results Controller
     
     lazy var fetchedResultsController: NSFetchedResultsController = {
         let fetchRequest = NSFetchRequest(entityName: "Photo")
@@ -74,6 +76,9 @@ class PhotoAlbumViewController: UIViewController {
         
         return fetchedResultsController
     }()
+    
+    
+    // MARK: Flickr Image List Download Helper Function
     
     /// This function downloads a list of images from Flickr and updates the collection view on completion
     func downloadFlickrImages() {
@@ -116,6 +121,9 @@ class PhotoAlbumViewController: UIViewController {
         }
     }
     
+    
+    // MARK: UI Configuration Helper Functions
+    
     /// Configure a flow layout for the collection view
     func configureFlowLayout() {
         let flowLayout = UICollectionViewFlowLayout()
@@ -131,6 +139,7 @@ class PhotoAlbumViewController: UIViewController {
         photoCollectionView.setCollectionViewLayout(flowLayout, animated: false)
     }
     
+    /// This function sets up the label that shows when there are no photos for the given pin
     func configureEmptyMessageLabel() {
         emptyMessageLabel = UILabel(frame: CGRectMake(0,0,photoCollectionView.bounds.size.width, photoCollectionView.bounds.size.height))
         emptyMessageLabel.text = "There are no photos to show for this location."
@@ -141,6 +150,14 @@ class PhotoAlbumViewController: UIViewController {
         photoCollectionView.backgroundView = emptyMessageLabel
     }
     
+    /**
+        This function sets up a cell for display in the collection view.
+     
+        - Parameters:
+            - cell: The cell to update.
+            - atIndexPath: The indexPath of the cell to be configured.  This is used to fetch the photo and determine if the
+              cell is selected.
+    */
     func configureCell(cell: PhotoCollectionViewCell, atIndexPath indexPath: NSIndexPath) {
         let photo = fetchedResultsController.objectAtIndexPath(indexPath) as! Photo
         
@@ -184,6 +201,7 @@ class PhotoAlbumViewController: UIViewController {
             cell.photoImageView.image = image
         }
         
+        // Display an alpha of 0.5 over the cell if it is selected.
         if let _ = selectedIndexes.indexOf(indexPath) {
             cell.photoImageView.alpha = 0.5
         } else {
@@ -191,13 +209,26 @@ class PhotoAlbumViewController: UIViewController {
         }
     }
     
+    /// This helper function stops the activity indicator and enables the button.
     func enableUIAndRemoveActivityIndicator() {
         photoUpdateButton.enabled = true
         activityIndicator.stopAnimating()
         activityIndicator.removeFromSuperview()
     }
     
-    /// This function removes all photos associated with the current pin
+    /// This helper function updates the text of the photoUpdateButton based on whether there are any selected photos.
+    func updateBottomButton() {
+        if (selectedIndexes.count > 0) {
+            photoUpdateButton.title = "Remove Selected Photos"
+        } else {
+            photoUpdateButton.title = "New Collection"
+        }
+    }
+    
+    
+    // MARK: Photo deletion helper functions
+    
+    /// This function removes all photos associated with the current pin.
     func deleteAllPhotos() {
         for photo in fetchedResultsController.fetchedObjects as! [Photo] {
             // Delete object from Core Data
@@ -223,6 +254,7 @@ class PhotoAlbumViewController: UIViewController {
         }
     }
     
+    /// This photo deletes any from Core Data photos that are currently selected.
     func deleteSelectedPhotos() {
         var photosToDelete = [Photo]()
         
@@ -235,14 +267,6 @@ class PhotoAlbumViewController: UIViewController {
         }
         
         selectedIndexes = [NSIndexPath]()
-    }
-    
-    func updateBottomButton() {
-        if (selectedIndexes.count > 0) {
-            photoUpdateButton.title = "Remove Selected Photos"
-        } else {
-            photoUpdateButton.title = "New Collection"
-        }
     }
     
     
@@ -261,6 +285,9 @@ class PhotoAlbumViewController: UIViewController {
     }
 }
 
+
+// MARK: Collection View Delegate Functions
+
 extension PhotoAlbumViewController: UICollectionViewDelegate {
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let cell = collectionView.cellForItemAtIndexPath(indexPath) as! PhotoCollectionViewCell
@@ -276,6 +303,9 @@ extension PhotoAlbumViewController: UICollectionViewDelegate {
         updateBottomButton()
     }
 }
+
+
+// MARK: Collection View Data Source Functions
 
 extension PhotoAlbumViewController: UICollectionViewDataSource {
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
@@ -303,6 +333,7 @@ extension PhotoAlbumViewController: UICollectionViewDataSource {
     }
 }
 
+
 // MARK: Fetched Results Controller Delegate Functions
 
 extension PhotoAlbumViewController: NSFetchedResultsControllerDelegate {
@@ -315,6 +346,7 @@ extension PhotoAlbumViewController: NSFetchedResultsControllerDelegate {
         updatedIndexPaths = [NSIndexPath]()
     }
     
+    /// Add a record to each of the relevant arrays for each Core Data change type so that they can be updated in the collection view.
     func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
         
         switch type {
@@ -333,6 +365,7 @@ extension PhotoAlbumViewController: NSFetchedResultsControllerDelegate {
         }
     }
     
+    /// Perform a batch update for each of the accumulated Core Data changes.
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
         
         photoCollectionView.performBatchUpdates({() -> Void in
