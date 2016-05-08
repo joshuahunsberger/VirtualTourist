@@ -180,6 +180,43 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
         activityIndicator.stopAnimating()
         activityIndicator.removeFromSuperview()
     }
+    
+    /// This function removes all photos associated with the current pin
+    func deleteAllPhotos() {
+        for photo in fetchedResultsController.fetchedObjects as! [Photo] {
+            // Delete object from Core Data
+            sharedContext.deleteObject(photo)
+            
+            // Delete photo from disk
+
+            // Build URL
+            let documentsPath = CoreDataStackManager.sharedManager.applicationDocumentsDirectory
+            let fileURL = NSURL.fileURLWithPath("\(photo.id)", relativeToURL: documentsPath)
+            let filePath = fileURL.path!
+            
+            let fileManager = NSFileManager()
+            
+            // Delete the file for the image if it exists
+            if fileManager.fileExistsAtPath(filePath) {
+                do {
+                    try fileManager.removeItemAtPath(filePath)
+                } catch let error as NSError {
+                    print("There was an error removing the file: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+    
+    // MARK: Interface Builder Action Functions
+    
+    @IBAction func photoUpdateButtonPressed(sender: AnyObject) {
+        // Delete existing images
+        deleteAllPhotos()
+        //Download new images
+        downloadFlickrImages()
+    }
+    
+    
 }
 
 // MARK: Fetched Results Controller Delegate Functions
