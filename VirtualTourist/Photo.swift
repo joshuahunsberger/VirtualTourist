@@ -12,7 +12,7 @@ import CoreData
 class Photo: NSManagedObject {
     // MARK: Properties
     @NSManaged var urlPath: String!
-    @NSManaged var flickrID: String!
+    @NSManaged var id: String!
     @NSManaged var location: Pin?
     
     // MARK: Initializers
@@ -25,7 +25,7 @@ class Photo: NSManagedObject {
         let entity = NSEntityDescription.entityForName("Photo", inManagedObjectContext: context)!
         super.init(entity: entity, insertIntoManagedObjectContext: context)
         
-        flickrID = id
+        self.id = id
         urlPath = path
     }
 }
