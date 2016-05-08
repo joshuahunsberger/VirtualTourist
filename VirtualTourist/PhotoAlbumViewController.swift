@@ -292,18 +292,19 @@ extension PhotoAlbumViewController: NSFetchedResultsControllerDelegate {
     
     func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
         
-        // TODO: Build out logic for updating changed index arrays in switch statement
-        
         switch type {
             
         case .Insert:
-            print("Insert an item")
+            insertedIndexPaths.append(newIndexPath!)
+            break
         case .Delete:
-            print("Delete an item")
+            deletedIndexPaths.append(newIndexPath!)
+            break
         case .Update:
-            print("Update an item")
+            updatedIndexPaths.append(newIndexPath!)
         case .Move:
-            print("Move an item")
+            print("Item moved. This shouldn't occur.")
+            break
         }
     }
     
