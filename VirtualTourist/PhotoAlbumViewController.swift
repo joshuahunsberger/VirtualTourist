@@ -50,15 +50,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
             }
         }
         
-        let flowLayout = UICollectionViewFlowLayout()
-        let space: CGFloat = 3.0
-        let minOrientationSize = min(photoCollectionView.frame.size.height, photoCollectionView.frame.size.width)
-        let dimension = (minOrientationSize - (2*space)) / 3.0
-        flowLayout.minimumLineSpacing = space
-        flowLayout.minimumInteritemSpacing = space
-        flowLayout.itemSize = CGSizeMake(dimension, dimension)
-        
-        photoCollectionView.setCollectionViewLayout(flowLayout, animated: false)
+        configureFlowLayout()
         configureEmptyMessageLabel()
     }
     
@@ -163,6 +155,21 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
         configureCell(cell, atIndexPath: indexPath)
         
         updateBottomButton()
+    }
+    
+    /// Configure a flow layout for the collection view
+    func configureFlowLayout() {
+        let flowLayout = UICollectionViewFlowLayout()
+        let space: CGFloat = 3.0
+        let minOrientationSize = min(view.frame.size.height, view.frame.size.width)
+        let dimension = (minOrientationSize - (4 * space)) / 3.0
+
+        flowLayout.sectionInset = UIEdgeInsets(top: space, left: space, bottom: space, right: space)
+        flowLayout.minimumLineSpacing = space
+        flowLayout.minimumInteritemSpacing = space
+        flowLayout.itemSize = CGSizeMake(dimension, dimension)
+        
+        photoCollectionView.setCollectionViewLayout(flowLayout, animated: false)
     }
     
     func configureEmptyMessageLabel() {
