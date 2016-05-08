@@ -134,6 +134,27 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = photoCollectionView.dequeueReusableCellWithReuseIdentifier("PhotoCollectionViewCell", forIndexPath: indexPath) as! PhotoCollectionViewCell
         
+        configureCell(cell, atIndexPath: indexPath)
+        
+        return cell
+    }
+    
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        let cell = collectionView.cellForItemAtIndexPath(indexPath) as! PhotoCollectionViewCell
+        
+        if let index = selectedIndexes.indexOf(indexPath) {
+            selectedIndexes.removeAtIndex(index)
+            cell.photoImageView.alpha = 1.0
+        } else {
+            selectedIndexes.append(indexPath)
+            cell.photoImageView.alpha = 0.5
+        }
+        
+        // Update the title of the bottom button
+        updateBottomButton()
+    }
+    
+    func configureCell(cell: PhotoCollectionViewCell, atIndexPath indexPath: NSIndexPath) {
         let photo = fetchedResultsController.objectAtIndexPath(indexPath) as! Photo
         
         // Build URL
@@ -176,22 +197,11 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDelegate, UICo
             cell.photoImageView.image = image
         }
         
-        return cell
-    }
-    
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let cell = collectionView.cellForItemAtIndexPath(indexPath) as! PhotoCollectionViewCell
-        
-        if let index = selectedIndexes.indexOf(indexPath) {
-            selectedIndexes.removeAtIndex(index)
-            cell.photoImageView.alpha = 1.0
-        } else {
-            selectedIndexes.append(indexPath)
+        if let _ = selectedIndexes.indexOf(indexPath) {
             cell.photoImageView.alpha = 0.5
+        } else {
+            cell.photoImageView.alpha = 1.0
         }
-        
-        // Update the title of the bottom button
-        updateBottomButton()
     }
     
     func enableUIAndRemoveActivityIndicator() {
