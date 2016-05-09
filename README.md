@@ -8,6 +8,11 @@ The app uses Core Data to persist the user's pinned locations and photos. The la
 
 Screenshots below are shown on the iOS simulator for an iPhone 6s Plus.
 
+####NOTE: 
+This app requests data from Flickr's API.  You will need to enter anAPI key in `FlickrConstants.swift` to run the app on your machine. If you do not have an API key, you can request one here: https://www.flickr.com/services/apps/create/apply/
+
+##Walkthrough
+
 The initial screen shows a map view.
 
 ![Map View](screenshots/map_view.png)
