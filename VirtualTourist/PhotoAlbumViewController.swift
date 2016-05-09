@@ -228,31 +228,11 @@ class PhotoAlbumViewController: UIViewController {
     
     // MARK: Photo deletion helper functions
     
-    func deletePhotoFromDisk(photo: Photo) {
-        // Build URL
-        let documentsPath = CoreDataStackManager.sharedManager.applicationDocumentsDirectory
-        let fileURL = NSURL.fileURLWithPath("\(photo.id)", relativeToURL: documentsPath)
-        let filePath = fileURL.path!
-        
-        let fileManager = NSFileManager()
-        
-        // Delete the file for the image if it exists
-        if fileManager.fileExistsAtPath(filePath) {
-            do {
-                try fileManager.removeItemAtPath(filePath)
-            } catch let error as NSError {
-                print("There was an error removing the file: \(error.localizedDescription)")
-            }
-        }
-    }
-    
     /// This function removes all photos associated with the current pin.
     func deleteAllPhotos() {
         for photo in fetchedResultsController.fetchedObjects as! [Photo] {
             // Delete object from Core Data
             sharedContext.deleteObject(photo)
-            // Delete photo from disk
-            deletePhotoFromDisk(photo)
         }
     }
     
@@ -267,8 +247,6 @@ class PhotoAlbumViewController: UIViewController {
         for photo in photosToDelete {
             // Delete object from Core Data
             sharedContext.deleteObject(photo)
-            // Delete photo from disk
-            deletePhotoFromDisk(photo)
         }
         
         selectedIndexes = [NSIndexPath]()
