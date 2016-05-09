@@ -203,7 +203,7 @@ extension FlickrClient {
             }
             
             if photoArray.count == 0 {
-                sendError("No photos found.")
+                sendError("No photos found on page. Consider searching fewer pages.")
                 return
             }
             
