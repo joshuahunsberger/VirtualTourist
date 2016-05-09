@@ -139,7 +139,8 @@ extension FlickrClient {
             }
 
             // Pick a random page
-            let pageLimit = min(numPages, 133) // Flickr returns at most 4000 results, so limit the searched pages to 4000/30 ~= 133 pages
+            // Flickr doesn't seem to return more than 1000 pictures, so only search up to page 33 (1000/30 = 33 pages)
+            let pageLimit = min(numPages, 33)
             let randomPage = Int(arc4random_uniform(UInt32(pageLimit))) + 1
             if(randomPage == 1) {
                 // Already have the page we want, use the images on this page
