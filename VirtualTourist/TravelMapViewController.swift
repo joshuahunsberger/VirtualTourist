@@ -23,6 +23,13 @@ class TravelMapViewController: UIViewController, MKMapViewDelegate {
     let DELETE_LABEL_HEIGHT_EXPANDED: CGFloat  = 50.0
     let DELETE_LABEL_HEIGHT_COLLAPSED: CGFloat = 0.0
     let ANIMATION_DURATION: Double = 0.1
+    let BEGIN_EDITING_BUTTON_TEXT: String = "Edit"
+    let END_EDITING_BUTTON_TEXT: String = "Done"
+    let LATITUDE_KEY: String = "latitude"
+    let LONGITUDE_KEY: String = "longitude"
+    let LATITUDE_DELTA_KEY: String = "latitudeDelta"
+    let LONGITUDE_DELTA_KEY: String = "longitudeDelta"
+    let PHOTO_ALBUM_SEGUE: String = "showPhotoAlbumSegue"
 
 
     // MARK: InterfaceBuilder Outlet properties
@@ -102,12 +109,12 @@ class TravelMapViewController: UIViewController, MKMapViewDelegate {
         if(mode == EditingMode.editingOff) {
             mode = EditingMode.editingOn
             navigationItem.rightBarButtonItem?.style = .Done
-            navigationItem.rightBarButtonItem?.title = "Done"
+            navigationItem.rightBarButtonItem?.title = END_EDITING_BUTTON_TEXT
             deleteLabelHeightConstraint.constant = DELETE_LABEL_HEIGHT_EXPANDED
         } else {
             mode = EditingMode.editingOff
             navigationItem.rightBarButtonItem?.style = .Plain
-            navigationItem.rightBarButtonItem?.title = "Edit"
+            navigationItem.rightBarButtonItem?.title = BEGIN_EDITING_BUTTON_TEXT
             deleteLabelHeightConstraint.constant = DELETE_LABEL_HEIGHT_COLLAPSED
         }
         
@@ -122,7 +129,7 @@ class TravelMapViewController: UIViewController, MKMapViewDelegate {
     
     /// Function to lay out what happens when segues are triggerd
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if(segue.identifier == "showPhotoAlbumSegue") {
+        if(segue.identifier == PHOTO_ALBUM_SEGUE) {
             let vc = segue.destinationViewController as! PhotoAlbumViewController
             let annotation = sender as! MKPointAnnotation
             
@@ -146,7 +153,7 @@ class TravelMapViewController: UIViewController, MKMapViewDelegate {
     
     /// Initializes the editing mode to off and sets up the UI elements for toggling that status
     func initializeEditingMode() {
-        let editButton = UIBarButtonItem(title: "Edit", style: .Plain, target: self, action: #selector(TravelMapViewController.toggleEditingMode))
+        let editButton = UIBarButtonItem(title: BEGIN_EDITING_BUTTON_TEXT, style: .Plain, target: self, action: #selector(TravelMapViewController.toggleEditingMode))
         navigationItem.rightBarButtonItem = editButton
         mode = EditingMode.editingOff
         deleteLabel.hidden = true
@@ -160,11 +167,11 @@ class TravelMapViewController: UIViewController, MKMapViewDelegate {
         The doubleForKey function returns 0 if the key doesn't exist, and a latitude delta of 0 shouldn't make sense.
     */
     func initializeMapRegion() {
-        if NSUserDefaults.standardUserDefaults().doubleForKey("latitudeDelta") != 0 {
-            let lat = NSUserDefaults.standardUserDefaults().doubleForKey("latitude")
-            let lon = NSUserDefaults.standardUserDefaults().doubleForKey("longitude")
-            let latDelta = NSUserDefaults.standardUserDefaults().doubleForKey("latitudeDelta")
-            let lonDelta = NSUserDefaults.standardUserDefaults().doubleForKey("longitudeDelta")
+        if NSUserDefaults.standardUserDefaults().doubleForKey(LATITUDE_DELTA_KEY) != 0 {
+            let lat = NSUserDefaults.standardUserDefaults().doubleForKey(LATITUDE_KEY)
+            let lon = NSUserDefaults.standardUserDefaults().doubleForKey(LONGITUDE_KEY)
+            let latDelta = NSUserDefaults.standardUserDefaults().doubleForKey(LATITUDE_DELTA_KEY)
+            let lonDelta = NSUserDefaults.standardUserDefaults().doubleForKey(LONGITUDE_DELTA_KEY)
             
             mapView.setRegion(MKCoordinateRegionMake(CLLocationCoordinate2DMake(lat, lon), MKCoordinateSpanMake(latDelta, lonDelta)), animated: false)
         }
@@ -181,7 +188,7 @@ class TravelMapViewController: UIViewController, MKMapViewDelegate {
     func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
         if(mode == EditingMode.editingOff){
             mapView.deselectAnnotation(view.annotation, animated: true)
-            performSegueWithIdentifier("showPhotoAlbumSegue", sender: view.annotation)
+            performSegueWithIdentifier(PHOTO_ALBUM_SEGUE, sender: view.annotation)
         } else {
             let annotation = view.annotation as! MKPointAnnotation
             for pin in pins {
@@ -202,10 +209,10 @@ class TravelMapViewController: UIViewController, MKMapViewDelegate {
         Use this delegate function to save values to NSUserDefaults that are needed to reconstruct the map region.
     */
     func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        NSUserDefaults.standardUserDefaults().setDouble(mapView.region.center.latitude, forKey: "latitude")
-        NSUserDefaults.standardUserDefaults().setDouble(mapView.region.center.longitude, forKey: "longitude")
-        NSUserDefaults.standardUserDefaults().setDouble(mapView.region.span.latitudeDelta, forKey: "latitudeDelta")
-        NSUserDefaults.standardUserDefaults().setDouble(mapView.region.span.longitudeDelta, forKey: "longitudeDelta")
+        NSUserDefaults.standardUserDefaults().setDouble(mapView.region.center.latitude, forKey: LATITUDE_KEY)
+        NSUserDefaults.standardUserDefaults().setDouble(mapView.region.center.longitude, forKey: LONGITUDE_KEY)
+        NSUserDefaults.standardUserDefaults().setDouble(mapView.region.span.latitudeDelta, forKey: LATITUDE_DELTA_KEY)
+        NSUserDefaults.standardUserDefaults().setDouble(mapView.region.span.longitudeDelta, forKey: LONGITUDE_DELTA_KEY)
     }
 }
 
